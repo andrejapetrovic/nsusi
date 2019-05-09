@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList, Directive, Input, Output, EventEmitter } from '@angular/core';
 import { Student } from '../../assets/models/student';
 import { DataService } from '../service/data.service';
-import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabset, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { StudentRow } from '../view-models/student-row';
 import { Clanarina } from 'src/assets/models/clanarina';
 import { NgForm } from '@angular/forms';
+import { Suspenzija } from 'src/assets/models/suspenzija';
 
 export interface ITab {
   id: string;
@@ -55,12 +56,11 @@ export class StudentTableComponent implements OnInit {
   @ViewChild('tabs')
   private tabset: NgbTabset;
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private modalService: NgbModal) {
     console.log(dataService.students);
   }
 
   ngOnInit() {
-
   }
   
   closeTab(tab: ITab, $event) {
@@ -92,9 +92,13 @@ export class StudentTableComponent implements OnInit {
   }
 
   dodajCln(studRow: StudentRow, f: NgForm) {
-    console.log(studRow);
     studRow.dodajClanarinu(f.value);
     f.resetForm();
+  }
+
+  private ukiniSusp(studRow: StudentRow, $event) {
+    $event.stopPropagation();
+    studRow.ukiniSuspenziju();
   }
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
@@ -114,6 +118,19 @@ export class StudentTableComponent implements OnInit {
       });
   }
 
+  private suspStud: StudentRow ;
+  
+  openSuspModal(content, studRow: StudentRow, $event) {
+    $event.stopPropagation();
+    this.suspStud = studRow;
+    this.modalService.open(content, { centered: true });
+  }
+
+  saveSusp(form: NgForm) {
+    this.suspStud.dodajSuspenziju(form.value);
+    form.resetForm();
+    this.modalService.dismissAll();
+  }
 
 
 }
