@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList, Directive, Input, Output, EventEmitter } from '@angular/core';
-import { Student } from '../../assets/models/student';
 import { DataService } from '../service/data.service';
 import { NgbTabset, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { StudentRow } from '../view-models/student-row';
 import { Clanarina } from 'src/assets/models/clanarina';
 import { NgForm } from '@angular/forms';
-import { Suspenzija } from 'src/assets/models/suspenzija';
 
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': 'asc', '': 'asc' };
@@ -43,7 +41,9 @@ export class NgbdSortableHeader {
 })
 export class StudentTableComponent implements OnInit {
 
-  constructor(private dataService: DataService, private modalService: NgbModal) {
+  ime; prz; fakultet; godStud; godUpis; smer;
+
+  constructor(public dataService: DataService, public modalService: NgbModal) {
 
   }
 
@@ -70,7 +70,7 @@ export class StudentTableComponent implements OnInit {
     f.resetForm();
   }
 
-  private ukiniSusp(studRow: StudentRow, $event) {
+  public ukiniSusp(studRow: StudentRow, $event) {
     $event.stopPropagation();
     studRow.ukiniSuspenziju();
   }
@@ -92,7 +92,7 @@ export class StudentTableComponent implements OnInit {
       });
   }
 
-  private suspStud: StudentRow ;
+  public suspStud: StudentRow ;
   
   openSuspModal(content, studRow: StudentRow, $event) {
     $event.stopPropagation();

@@ -9,7 +9,7 @@ import { DataService } from '../service/data.service';
 })
 export class ArchiveComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(public dataService: DataService) { }
 
   ngOnInit() {
   }

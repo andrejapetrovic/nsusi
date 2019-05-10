@@ -8,9 +8,9 @@ import { DataService } from './data.service';
 })
 export class SearchService {
 
-  constructor(private dataService: DataService) { }
+  constructor(public dataService: DataService) { }
 
-  private search(arr: any[]) {
+  public search(arr: any[]) {
     let retVal = (text$: Observable<string>) =>
     text$.pipe(
       map(term => term.length < 1 ? [] 
@@ -19,7 +19,7 @@ export class SearchService {
     return retVal;
   }
 
-  private multiSearch(arr: any[]) {
+  public multiSearch(arr: any[]) {
     let retVal = (text$: Observable<string>) =>
     text$.pipe(
       map(term => {

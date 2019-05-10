@@ -15,7 +15,7 @@ import { StudentRow } from '../view-models/student-row';
 })
 export class FormComponent implements OnInit {
 
-  constructor(private searchService: SearchService, private dataService: DataService) { }
+  constructor(public searchService: SearchService, public dataService: DataService) { }
 
   ngOnInit() {
 
@@ -85,14 +85,14 @@ export class FormComponent implements OnInit {
     this.dataService.students.push(new StudentRow(student));
   }
 
-  private str2Arr(arrStr: string): any[] {
+  public str2Arr(arrStr: string): any[] {
     console.log(arrStr);
     if (!arrStr) return [];
     arrStr = arrStr.replace(/\s/g, '');
     return arrStr.includes(',') ? arrStr.split(',') : [arrStr];
 }
 
-private str2Date(dateStr: string): Date {
+public str2Date(dateStr: string): Date {
   let d = dateStr.split('. ');
   return new Date(parseInt(d[2]), parseInt(d[1]), parseInt(d[0]));
 }
