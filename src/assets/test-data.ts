@@ -31,7 +31,7 @@ getData(): StudentRow[] {
     tipInv: "drugo",
     ulica: "Cara Dusana 32",
     jezici: ["engleski", "srpski", "nemacki"],
-    racVest: ["excel", "word", "sve"],
+    racVest: ["internet", "word"],
     studOrgs: ["Test org1"],
     prisSkup: [2018, 2019, 2020],
     clanarine: [
@@ -43,6 +43,7 @@ getData(): StudentRow[] {
       new Suspenzija({datSusp: new Date(2019, 3, 2), razlog: "nema razloga"})
     ],
     studInfo: new StudInfo({fakultet:"FTN", godStud:4, godUpis: "2014/2015", smer:"E2"}),
+    arhiviran: false,
     drugeVes: []
   })
 
@@ -69,7 +70,7 @@ getData(): StudentRow[] {
     tipInv: "drugo",
     ulica: "Cara Dusana 32",
     jezici: ["engleski", "spanski"],
-    racVest: ["excel", "word", "sve"],
+    racVest: ["excel", "word", "java"],
     studOrgs: ["Test org1"],
     prisSkup: [2018, 2019, 2020],
     clanarine: [
@@ -81,11 +82,11 @@ getData(): StudentRow[] {
       new Suspenzija({datSusp: new Date(2019, 3, 2), razlog: "nema razloga", datPrestanka: new Date(2019, 3, 15)})
     ],
     studInfo: new StudInfo({fakultet:"Fakultet tehnickih nauka", godStud:2, godUpis: "2017/2018", smer:"RA"}),
-    
+    arhiviran: false,
     drugeVes:[]
   })
    
-  return [new StudentRow(stud1), new StudentRow(stud2)];   
+  return [new StudentRow(stud1), new StudentRow(stud2), new StudentRow(stud2),new StudentRow(stud2),new StudentRow(stud2),new StudentRow(stud2),new StudentRow(stud2),new StudentRow(stud2),new StudentRow(stud2),new StudentRow(stud2)];   
 }
 
 }

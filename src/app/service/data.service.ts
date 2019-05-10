@@ -10,6 +10,7 @@ import { StudentRow } from '../view-models/student-row';
 export class DataService {
 
   students: StudentRow[] = [];
+  archive: StudentRow[] = [];
   mesta: string[] = [];
   pozBrFiksni: string[] = [];
   jezici: string[] = ["srpski", "engleski", "nemacki"]; 

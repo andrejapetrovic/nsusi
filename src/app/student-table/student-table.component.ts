@@ -7,13 +7,6 @@ import { Clanarina } from 'src/assets/models/clanarina';
 import { NgForm } from '@angular/forms';
 import { Suspenzija } from 'src/assets/models/suspenzija';
 
-export interface ITab {
-  id: string;
-  name: string;
-  unique: boolean;
-  studId?: string;
-}
-
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': 'asc', '': 'asc' };
 export const compare = (v1, v2) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
@@ -50,35 +43,16 @@ export class NgbdSortableHeader {
 })
 export class StudentTableComponent implements OnInit {
 
-  private closableTabs: ITab[] = [];
-  private students: StudentRow[] = this.dataService.students;
-
-  @ViewChild('tabs')
-  private tabset: NgbTabset;
-
   constructor(private dataService: DataService, private modalService: NgbModal) {
-    console.log(dataService.students);
+
   }
 
   ngOnInit() {
   }
-  
-  closeTab(tab: ITab, $event) {
-    $event.preventDefault();
-    this.closableTabs = this.closableTabs.filter(t => t.id !== tab.id);
-  }
-  
-  createUniqueTab(id, name) {
-    if (this.closableTabs.filter(tab => tab.id === id).length == 0) {
-      this.closableTabs.push({id: id, name: name, unique: true});
-      this.tabset.activeId = "ngb-tab-" + (this.closableTabs.length + 1);
-    }
-  }
 
   editStudentRow(idx: number){
-    let row = this.students[idx];
+    let row = this.dataService.students[idx];
     row.editable = false;
-    console.log(row.updateModel());
   }
 
   platiCln(studRow: StudentRow, $event) {
@@ -112,7 +86,7 @@ export class StudentTableComponent implements OnInit {
     });
 
     // sorting 
-      this.students = [...this.students].sort((a, b) => {
+      this.dataService.students = [...this.dataService.students].sort((a, b) => {
         const res = compare(a[column], b[column]);
         return direction === 'asc' ? res : -res;
       });
@@ -130,6 +104,16 @@ export class StudentTableComponent implements OnInit {
     this.suspStud.dodajSuspenziju(form.value);
     form.resetForm();
     this.modalService.dismissAll();
+  }
+
+  archive(stRow: StudentRow) {
+    this.dataService.students = this.dataService.students
+      .filter( s => s._id !== stRow._id);
+    this.dataService.students = this.dataService.students
+      .filter( s => s._id !== stRow._id);
+    this.dataService.archive.push(stRow);
+    console.log(this.dataService.students);
+    stRow.arhiviraj();
   }
 
 

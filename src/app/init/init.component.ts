@@ -16,7 +16,7 @@ export class InitComponent implements OnInit {
     let timer = interval(500)
       .subscribe((val) => { 
          if (this.dataService.initialized) {
-           this.router.navigate(['/students']);
+           this.router.navigate(['/home']);
            timer.remove
          }
       });

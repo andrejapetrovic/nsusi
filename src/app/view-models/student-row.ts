@@ -219,4 +219,12 @@ export class StudentRow {
         arrStr = arrStr.replace(/\s/g, '');
         return arrStr.includes(',') ? arrStr.split(',') : [arrStr];
     } 
+
+    public arhiviraj() {
+        this.student.arhiviran = true;
+    }
+
+    public vratiIzArhive() {
+        this.student.arhiviran = false;
+    }
 } 

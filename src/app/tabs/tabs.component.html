@@ -1,0 +1,59 @@
+<div class="col-lg-12">
+  <h2>Test/Demo verzija aplikacije, podaci uneti ili promenjeni se nece trajno sacuvati nakon sledeceg refresha/ulaska.
+    Konacna verzija aplikacije nece biti web vec desktop s pristupom bazi hostovanoj na cloud servisu
+  </h2>
+  <h3>
+    Da bi se red u tabeli editovao, klikne se edit ili dupli klik na red, sacuva se na save dugme u tabeli ili na enter dok je fokus na polju za unos
+  </h3>
+  <h3>
+    Polja članarina i suspezije imaju opciju da se prilikom klika na njih otvori detaljan prikaz, indikator promena izgleda kursora
+  </h3>
+  <h3>
+    Da li prilikom potvrde plaćanja članarine omogućiti opciju za unos datuma plaćanja ili automatski registrovati datum na klik?
+  </h3>
+  <h3>
+    bice ubaceno jos opcija za filtriranje, padajuci meniji 
+  </h3>
+  <br>
+  <div class="toolbar">
+    <div class="btn-group float-right">
+      <button type="button" class="btn btn-light" onclick="this.blur();">Profil</button>
+      <button type="button" class="btn btn-light" onclick="this.blur();">Odjavi se</button>
+    </div>
+  </div>
+  <br>
+  
+  <ngb-tabset [destroyOnHide]="false" #tabs>
+    <ngb-tab title="Tabela članova">
+      <ng-template ngbTabContent>
+        <app-student-table archive="false"></app-student-table>
+      </ng-template>
+    </ngb-tab>
+  
+    <ngb-tab title="Novi član" [attr.id]="nc">
+      <ng-template ngbTabContent>
+        <app-form></app-form>
+      </ng-template>
+    </ngb-tab>
+  
+    <ngb-tab title="Arhiva">
+      <ng-template ngbTabContent>
+        <app-archive></app-archive>
+      </ng-template>
+    </ngb-tab>
+
+    <ngb-tab *ngFor="let tab of closableTabs" [attr.id]="tab.id">
+      <ng-template ngbTabTitle>
+        <span>{{tab.name}}</span>&nbsp;&nbsp;
+        <span class="close-tab" (click)="closeTab(tab, $event)">x</span>
+      </ng-template>
+      <ng-template ngbTabContent>
+        <div *ngIf="tab.id === 'student'">
+  
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>  
+  </div>
+  
+  

@@ -3,6 +3,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var DataManager = /** @class */ (function () {
     function DataManager() {
+        var MongoClient = require('mongodb').MongoClient;
+        var url = 'mongodb+srv://aki:123@cluster0-jgedm.gcp.mongodb.net';
+        var client = new MongoClient(url, { useNewUrlParser: true });
+        client.connect(function (err) {
+            if (err)
+                throw err;
+            console.log("Connected correctly to server");
+            var dbs = client.db('nsusi');
+            // Get the documents collection
+            var students = dbs.collection('students');
+            // Find some documents
+            students.find({}).toArray(function (err, docs) {
+                if (err)
+                    throw err;
+                console.log("Found the following records");
+                console.log(docs);
+            });
+        });
         var Datastore = require('nedb');
         var db = {};
         db.students = new Datastore({ filename: 'src/assets/data/student.db', autoload: true });

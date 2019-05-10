@@ -11,6 +11,8 @@ import { InitComponent } from './init/init.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FilterTablePipe } from './pipes/filter-table.pipe';
 import { ReversePipe } from './pipes/reverse.pipe';
+import { TabsComponent } from './tabs/tabs.component';
+import { ArchiveComponent } from './archive/archive.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { ReversePipe } from './pipes/reverse.pipe';
     InitComponent,
     NgbdSortableHeader,
     FilterTablePipe,
-    ReversePipe
+    ReversePipe,
+    TabsComponent,
+    ArchiveComponent
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,34 @@ import { StudInfo } from './models/stud-info';
 
 export class DataManager {
 
+    
     constructor (){
+
+        const MongoClient = require('mongodb').MongoClient;
+        const url = 'mongodb+srv://aki:123@cluster0-jgedm.gcp.mongodb.net';
+        const client = new MongoClient(url, { useNewUrlParser: true });
+
+        
+        client.connect( err => {
+            if (err) throw err;
+
+            console.log("Connected correctly to server");
+            const dbs = client.db('nsusi');
+            
+
+     
+                // Get the documents collection
+                const students = dbs.collection('students');
+                // Find some documents
+                students.find({}).toArray( (err, docs) => {
+                  if (err) throw err;
+                  console.log("Found the following records");
+                  console.log(docs);
+                });
+              
+
+        })
+
 
         let Datastore = require('nedb');
         let db: any = {};

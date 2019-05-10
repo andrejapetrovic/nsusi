@@ -1,27 +1,4 @@
-<div class="col-lg-12">
-<div class="sticky">
-<h2>Test/Demo verzija aplikacije, podaci uneti ili promenjeni se nece trajno sacuvati nakon sledeceg refresha/ulaska.
-  Konacna verzija aplikacije nece biti web vec desktop s pristupom bazi hostovanoj na online cloud servisu
-</h2>
-<h2>Bice dodato jos filtera, i dodavanje suspenzija i pregled suspenzija, dugme za arhiviranje, arhiva ce izgledati isto ovako,
-</h2>
-<h2>
-  da bi se red u tabeli editovao, klikne se edit ili dupli klik na red, sacuva se na save dugme u tabeli ili na enter dok je fokus na polju za unos
-</h2>
-<br>
-<div class="toolbar">
-  <div class="btn-group float-right">
-    <button type="button" class="btn btn-light" onclick="this.blur();">Profil</button>
-    <button type="button" class="btn btn-light" onclick="this.blur();">Odjavi se</button>
-  </div>
-</div>
-<br>
-</div>
 
-<div>
-<ngb-tabset #tabs>
-  <ngb-tab title="Tabela članova">
-    <ng-template ngbTabContent>
       <br>
       <div class="row">
         <div class="col-sm-2">
@@ -54,42 +31,45 @@
   <thead>
   <tr>
     <th class="btn-th"></th>
-    <th scope="col" sortable="ime" (sort)="onSort($event)"><div class="student-cell">Ime</div></th>
-    <th scope="col" sortable="prz" (sort)="onSort($event)"><div class="student-cell">Prezime</div></th>
-    <th scope="col"><div class="student-cell">Članarina</div></th>
-    <th scope="col"><div class="student-cell">Datum učlanjena</div></th>
-    <th scope="col" sortable="fakultet" (sort)="onSort($event)"><div class="student-cell">Fakultet</div></th>
-    <th scope="col" sortable="smer" (sort)="onSort($event)"><div class="student-cell">Smer</div></th>
-    <th scope="col" sortable="godUpis" (sort)="onSort($event)"><div class="student-cell">Godina upisa</div></th>
-    <th scope="col" sortable="godStud" (sort)="onSort($event)"><div class="student-cell">Godina studija</div></th>
-    <th scope="col"><div class="student-cell">Mesto stanovanja</div></th>
-    <th scope="col"><div class="student-cell">Mesto rođenja</div></th>
-    <th scope="col"><div class="student-cell">Datum rođenja</div></th>
-    <th scope="col"><div class="student-cell">Broj fiksnog</div></th>
-    <th scope="col"><div class="student-cell">Broj mobilnog</div></th>
-    <th scope="col"><div class="student-cell">JMBG</div></th>
-    <th scope="col"><div class="student-cell">Broj lične karte</div></th>
-    <th scope="col"><div class="student-cell">Član</div></th>
-    <th scope="col"><div class="student-cell">Tip invaliditeta</div></th>
-    <th scope="col"><div class="student-cell">Dijagnoza</div></th>
-    <th scope="col"><div class="student-cell">Dodatna podrska</div></th>
-    <th scope="col"><div class="student-cell">Jezici</div></th>
-    <th scope="col"><div class="student-cell">Računarske veštine</div></th>
-    <th scope="col"><div class="student-cell">Druge organizacije</div></th>
-    <th scope="col"><div class="student-cell">Pisanje projekata</div></th>
-    <th scope="col"><div class="student-cell">Radioničarske veštine</div></th>
-    <th scope="col"><div class="student-cell">Stepen aktivnosti</div></th>
-    <th scope="col"><div class="student-cell">Druge veštine</div></th>
-    <th scope="col"><div class="student-cell">Način polaganja ispita</div></th>
-    <th scope="col"><div class="student-cell">Prisustvo skupštini</div></th>
-    <th scope="col"><div class="student-cell">Suspenzije</div></th>
+    <th scope="col" sortable="ime" (sort)="onSort($event)">Ime</th>
+    <th scope="col" sortable="prz" (sort)="onSort($event)">Prezime</th>
+    <th scope="col">Članarina</th>
+    <th scope="col">Datum učlanjena</th>
+    <th scope="col" sortable="fakultet" (sort)="onSort($event)">Fakultet</th>
+    <th scope="col" sortable="smer" (sort)="onSort($event)">Smer</th>
+    <th scope="col" sortable="godUpis" (sort)="onSort($event)">Godina upisa</th>
+    <th scope="col" sortable="godStud" (sort)="onSort($event)">Godina studija</th>
+    <th scope="col">Mesto stanovanja</th>
+    <th scope="col">Mesto rođenja</th>
+    <th scope="col">Datum rođenja</th>
+    <th scope="col">Broj fiksnog</th>
+    <th scope="col">Broj mobilnog</th>
+    <th scope="col">JMBG</th>
+    <th scope="col">Broj lične karte</th>
+    <th scope="col">Član</th>
+    <th scope="col">Tip invaliditeta</th>
+    <th scope="col">Dijagnoza</th>
+    <th scope="col">Dodatna podrska</th>
+    <th scope="col">Jezici</th>
+    <th scope="col">Računarske veštine</th>
+    <th scope="col">Druge organizacije</th>
+    <th scope="col">Pisanje projekata</th>
+    <th scope="col">Radioničarske veštine</th>
+    <th scope="col">Stepen aktivnosti</th>
+    <th scope="col">Druge veštine</th>
+    <th scope="col">Način polaganja ispita</th>
+    <th scope="col">Prisustvo skupštini</th>
+    <th scope="col">Suspenzije</th>
+    <th class="btn-th"></th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let stud of students | filterTable: ime: prz: fakultet: smer: godUpis: godStud; index as i">
+  <tr *ngFor="let stud of dataService.students | filterTable: ime: prz: fakultet: smer: godUpis: godStud; index as i">
     <div *ngIf="stud.editable; then editRow else basicRow"></div>
     <ng-template #basicRow>
-      <td class="btn-td" (focus)="showLeft = true"><button class="btn btn-primary btn-sm" (click)="stud.editable = true">edit</button></td>
+      <td class="btn-td">
+        <button class="btn btn-primary btn-sm" (click)="stud.editable = true">edit</button>
+      </td>
       <td (dblclick)="stud.editable = true">{{ stud.ime }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.prz }}</td>
       <td (click)="stud.clanarinaCollapsed = !stud.clanarinaCollapsed"
@@ -193,9 +173,9 @@
         <div *ngIf="stud.suspCollapsed">
         <table class="table table-stripped">
             <thead>
-              <th scope="col"><div class="student-cell">Datum suspenzije</div></th>
-              <th scope="col"><div class="student-cell">Razlog</div></th>
-              <th scope="col"><div class="student-cell">Datum prestanka</div></th>
+              <th scope="col">Datum suspenzije</th>
+              <th scope="col">Razlog</th>
+              <th scope="col">Datum prestanka</th>
             </thead>
             <tbody>
               <tr *ngFor="let susp of stud.suspenzije">
@@ -213,6 +193,9 @@
         </table>
       </div>
       </td>
+      <td class="btn-td">
+          <button class="btn btn-danger btn-sm" (click)="archive(stud)">arhiviraj</button>
+        </td>
 
     </ng-template>
     <ng-template #editRow>
@@ -287,29 +270,8 @@
   </tbody>
 </table>
 
-    </ng-template>
-  </ngb-tab>
 
-  <ngb-tab title="Novi član" [attr.id]="nc">
-    <ng-template ngbTabContent>
-      <app-form></app-form>
-    </ng-template>
-  </ngb-tab>
 
-  <ngb-tab *ngFor="let tab of closableTabs" [attr.id]="tab.id">
-    <ng-template ngbTabTitle>
-      <span>{{tab.name}}</span>&nbsp;&nbsp;
-      <span class="close-tab" (click)="closeTab(tab, $event)">x</span>
-    </ng-template>
-    <ng-template ngbTabContent>
-      <div *ngIf="tab.id === 'student'">
-
-      </div>
-    </ng-template>
-  </ngb-tab>
-</ngb-tabset>
-
-</div>
 <ng-template #content let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Nova suspenzija</h4>
@@ -334,7 +296,4 @@
       </div>
   </ng-template>
   
-  <hr>
-  
-</div>
 

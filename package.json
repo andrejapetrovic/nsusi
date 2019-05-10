@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "ng build --base-href ./ && tsc --p electron && electron ."
+    "electron": "ng build --base-href ./ && tsc --p electron && electron .",
+    "now-build": "ng build --prod --output-path dist"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,7 @@
     "core-js": "^2.5.4",
     "electron-compile": "^6.4.4",
     "jquery": "^3.3.1",
+    "mongodb": "^3.2.4",
     "nedb": "^1.8.0",
     "ngx-electron": "^2.1.1",
     "popper": "^1.0.1",
