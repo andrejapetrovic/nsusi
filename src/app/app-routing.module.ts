@@ -6,9 +6,9 @@ import { InitComponent } from './init/init.component';
 import { TabsComponent } from './tabs/tabs.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full' },
-  {path: 'home', component: TabsComponent},
-  {path: 'init', component: InitComponent}  
+  {path: '', redirectTo: '/init', pathMatch: 'full' },
+  {path: 'tabs', component: TabsComponent},
+  {path: 'init', component: InitComponent},
 ];
 
 @NgModule({
