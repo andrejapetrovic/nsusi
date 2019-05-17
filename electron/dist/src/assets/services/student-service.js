@@ -42,7 +42,6 @@ var StudentService = /** @class */ (function () {
             arg.jmbg = encrypt(arg.jmbg);
             var id = ObjectID(arg._id);
             delete arg._id;
-            console.log(arg);
             students.updateOne({ _id: id }, { $set: arg }, function (error) {
                 if (error)
                     throw error;
