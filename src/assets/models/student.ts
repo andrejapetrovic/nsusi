@@ -34,7 +34,6 @@ export class Student {
     studInfo: StudInfo;
     clanarine: Clanarina[];
     arhiviran: boolean = false;
-
     public constructor(init?:Partial<Student>) {
         Object.assign(this, init);
     }

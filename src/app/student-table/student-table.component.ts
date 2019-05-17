@@ -99,7 +99,7 @@ export class StudentTableComponent implements OnInit {
       });
   }
 
-  private suspStud: StudentRow ;
+  public suspStud: StudentRow ;
   
   openSuspModal(content, studRow: StudentRow) {
     this.suspStud = studRow;

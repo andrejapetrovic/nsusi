@@ -30,7 +30,7 @@ getData(): Student[] {
     tipInv: "Drugo",
     ulica: "Cara Dusana 32",
     jezici: ["engleski", "srpski", "nemacki"],
-    racVest: ["excel", "word", "sve"],
+    racVest: ["internet", "word"],
     studOrgs: ["Test org1"],
     prisSkup: ["2018/2019", "2019/2020", "2020/2021"],
     clanarine: [
@@ -68,7 +68,7 @@ getData(): Student[] {
     tipInv: "Drugo",
     ulica: "Cara Dusana 32",
     jezici: ["engleski", "spanski"],
-    racVest: ["excel", "word", "sve"],
+    racVest: ["excel", "word", "java"],
     studOrgs: ["Test org1"],
     prisSkup: ["2018/2019", "2019/2020", "2020/2021"],
     clanarine: [

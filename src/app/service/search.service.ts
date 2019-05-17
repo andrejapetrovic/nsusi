@@ -8,7 +8,7 @@ import { DataService } from './data.service';
 })
 export class SearchService {
 
-  constructor(private dataService: DataService) { }
+  constructor(public dataService: DataService) { }
 
   /*private multiSearch(arr: any[]) {
     let retVal = (text$: Observable<string>) =>
