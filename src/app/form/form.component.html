@@ -39,11 +39,11 @@
     <div class="row">
       <div class="col-sm-2">
         <label for="ime">Ime</label>
-        <input name="ime" type="text" id="ime" class="form-control" ngModel>
+        <input name="ime" type="text" id="ime" class="form-control" ngModel [ngbTypeahead]="searchService.searchImena">
       </div>
       <div class="col-sm-2">
           <label for="prezime">Prezime</label>
-          <input name="prz" type="text" id="prezime" class="form-control" ngModel>
+          <input name="prz" type="text" id="prezime" class="form-control" ngModel [ngbTypeahead]="searchService.searchPrezimena">
       </div>
       <div class="col-sm-2">
         <label for="dat">Datum rođenja</label>
@@ -51,34 +51,34 @@
       </div>
       <div class="col-sm-3">
         <label for="mesto-rodj">Mesto rođenja</label>
-        <input name="mestoRodj" ngModel type="text" id="mesto-rodj" class="form-control">
+        <input name="mestoRodj" ngModel type="text" id="mesto-rodj" class="form-control" [ngbTypeahead]="searchService.searchMesta">
       </div>
       <div class="col-sm-3">
         <label for="mesto-stan">Mesto stanovanja</label>
-        <input name="mestoStan" ngModel type="text" id="mesto-stan" class="form-control">
+        <input name="mestoStan" ngModel type="text" id="mesto-stan" class="form-control" [ngbTypeahead]="searchService.searchMesta">
       </div>
     </div><br>
     <div class="row">
       <div class="col-sm-4">
         <label for="ulica">Ulica i broj</label>
-        <input name="ulica" ngModel type="text" id="ulica" class="form-control">
+        <input name="ulica" ngModel type="text" id="ulica" class="form-control" [ngbTypeahead]="searchService.searchUlice">
       </div>
       <div class="col-sm-1">
-        <label for="phone-code" style="color:white">-</label>
-        <input name="pozBrMob" ngModel type="text" id="phone-code" class="form-control" [ngbTypeahead]="searchService.searchPozMob()">
+          <label for="phone-code">Poz. br.</label>
+        <input name="pozBrMob" ngModel type="text" id="phone-code" class="form-control" [ngbTypeahead]="searchService.searchPozMob">
       </div>
       <div class="col-sm-3">
-        <label for="phone-mob" style="color:white">-</label>
-        <label for="phone-mob" style="position: absolute; width: 110px; right: 255px;">Mobilni telefon</label>
+        
+        <label for="phone-mob">Mobilni telefon</label>
         <input name="mob" ngModel type="text" id="phone-mob" class="form-control">
       </div>
       <div class="col-sm-1">
-        <label for="phone-code2" style="color:white">-</label>
-        <input name="pozBrFik" ngModel type="text" id="phone-code2" class="form-control">
+          <label for="phone-code2">Poz. br.</label>
+        <input name="pozBrFik" ngModel type="text" id="phone-code2" class="form-control" [ngbTypeahead]="searchService.searchPozBr">
       </div>
       <div class="col-sm-3">
-          <label for="phone-f" style="color:white">-</label>
-        <label for="phone-f" style="position: absolute; width: 100px; right: 265px;">Fiksni telefon</label>
+          
+        <label for="phone-f">Fiksni telefon</label>
         <input name="tel" ngModel type="text" id="phone-f" class="form-control">
       </div>
     </div><br>
@@ -86,15 +86,15 @@
   <div class="row">
       <div class="col-sm-4">
         <label for="fak">Fakultet</label>
-        <input name="fakultet" ngModel type="text" id="fak" class="form-control">
+        <input name="fakultet" ngModel type="text" id="fak" class="form-control" [ngbTypeahead]="searchService.searchFakulteti">
       </div>
       <div class="col-sm-4">
           <label for="smer">Smer</label>
-          <input name="smer" ngModel type="text" id="smer" class="form-control">
+          <input name="smer" ngModel type="text" id="smer" class="form-control" [ngbTypeahead]="searchService.searchSmerovi">
       </div>
       <div class="col-sm-2">
           <label for="god-upis">Godina upisa</label>
-          <input name="godUpis" ngModel type="text" id="god-upis" class="form-control" placeholder="npr. 2014/15">
+          <input name="godUpis" ngModel type="text" id="god-upis" class="form-control" placeholder="npr. 2014/15" [ngbTypeahead]="searchService.searchSkGod">
       </div>
       <div class="col-sm-2">
           <label for="god-stud">Godina studija</label>
@@ -104,23 +104,23 @@
   <div class="row">
       <div class="col-sm-4">
           <label for="dijagnoza">Vrsta invaliditeta (dijagnoza)</label>
-          <input name="dijagnoza" ngModel type="text" id="dijagnoza" class="form-control">
+          <input name="dijagnoza" ngModel type="text" id="dijagnoza" class="form-control" [ngbTypeahead]="searchService.searchDijagnoze">
       </div> 
       <div class="col-sm-4">
           <label for="dod-pod">Potreba za dodatnom podrškom</label>
-          <input name="dodatnaPodrska" ngModel type="text" id="dod-pod" class="form-control">
+          <input name="dodatnaPodrska" ngModel type="text" id="dod-pod" class="form-control" [ngbTypeahead]="searchService.searchDp">
       </div>
       <div class="col-sm-4">
           <label for="pol-isp">Način polaganja ispita</label>
-          <input name="ispit" ngModel type="text" id="pol-isp" class="form-control">
+          <input name="ispit" ngModel type="text" id="pol-isp" class="form-control" [ngbTypeahead]="searchService.searchIspiti">
       </div>                     
   </div><br>
   <div class="row">
-      <div class="col-sm-3">
+      <div class="col-sm-2">
           <label for="jmbg">JMBG</label>
           <input name="jmbg" ngModel type="text" id="jmbg" class="form-control">
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-2">
           <label for="lk">Broj lične karte</label>
           <input name="brLicne" ngModel type="text" id="lk" class="form-control">
       </div>
@@ -130,13 +130,11 @@
       </div>
       <div class="col-sm-2">
           <label for="lk">Školska godina učlanjenja</label>
-          <input name="godUcl" ngModel type="text" id="lk" class="form-control">
+          <input name="godUcl" ngModel type="text" id="lk" class="form-control" [ngbTypeahead]="searchService.searchSkGod">
       </div>
-  </div><br>
-  <div class="row">
       <div class="col-sm-4">
         <label for="studOrgs">Članstvo u drugim organizacijama</label>
-        <input name="studOrgs" ngModel type="text" id="studOrgs" class="form-control">
+        <input name="studOrgs" ngModel type="text" id="studOrgs" class="form-control" [ngbTypeahead]="searchService.searchOrgs">
       </div>
   </div><br>
   <div class="row">
@@ -149,7 +147,7 @@
             </div>
       </div>     
       <div class="col-sm-10 d-none" id="znJez">
-        <input name="jezici" ngModel type="text" id="jez" class="form-control" placeholder="polje za unos jezika, odvojiti zarezom, npr engleski, francuski, španski" [ngbTypeahead]="searchService.searchJezici()">
+        <input name="jezici" ngModel type="text" id="jez" class="form-control" placeholder="polje za unos jezika, odvojiti zarezom, npr engleski, francuski, španski" [ngbTypeahead]="searchService.searchJezici">
       </div>    
   </div><br>
   <div class="row">
@@ -191,30 +189,30 @@
                     <label class="form-check-label" for="drugo">
                       Drugo
                     </label>
-                    <input type="text" name="racVest" ngModel id="druge-opcije" class="form-control d-none" placeholder="polje za unos drugih opcija">
+                    <input type="text" name="racVest" ngModel id="druge-opcije" class="form-control d-none" placeholder="polje za unos drugih opcija" [ngbTypeahead]="searchService.searchRv">
                   </div>                                 
       </div>    
   </div><br>
   <div class="row">
     <div class="col-sm-12">
       <div class="form-check">
-          <input name="radVes" ngModel class="form-check-input" type="checkbox" value="" id="rv">
-          <label class="form-check-label" for="rv">
+          <input name="radVes" ngModel class="form-check-input" type="checkbox" value="" id="rvform">
+          <label class="form-check-label" for="rvform">
             Radioničarske veštine
           </label>
         </div>
         <div class="form-check">
-          <input name="pisanjeProj" ngModel class="form-check-input" type="checkbox" value="" id="pproj">
-          <label class="form-check-label" for="pproj">
+          <input name="pisanjeProj" ngModel class="form-check-input" type="checkbox" value="" id="pprojform">
+          <label class="form-check-label" for="pprojform">
             Pisanje projekata
           </label>
         </div>
         <div class="form-check">
-            <input name="drVest" ngModel class="form-check-input" type="checkbox" value="" id="dv" (change)="toggleOptions($event, 'druge-vestine')">
-            <label class="form-check-label" for="dv">
+            <input name="drVest" ngModel class="form-check-input" type="checkbox" value="" id="dvform" (change)="toggleOptions($event, 'druge-vestine')">
+            <label class="form-check-label" for="dvform">
               Druge veštine
             </label>
-            <input name="drugeVes" ngModel type="text" id="druge-vestine" class="form-control d-none" placeholder="polje za unos drugih veština, odvojiti zarezom">
+            <input name="drugeVes" ngModel type="text" id="druge-vestine" class="form-control d-none" placeholder="polje za unos drugih veština, odvojiti zarezom" [ngbTypeahead]="searchService.searchDv">
           </div>
   </div>
     </div><br>

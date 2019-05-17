@@ -1,0 +1,65 @@
+<div class="col-lg-12">
+    <br>
+    <div class="toolbar">
+      <div class="btn-group float-right">
+        <button type="button" class="btn btn-light" onclick="this.blur();">Profil</button>
+        <button type="button" class="btn btn-light" onclick="this.blur();">Odjavi se</button>
+      </div>
+    </div>
+    <br>
+    <ngb-tabset [destroyOnHide]="false" #tabs>
+      <ngb-tab>
+          <ng-template ngbTabTitle>
+              <span><b>Tabela članova</b></span>
+            </ng-template>
+        <ng-template ngbTabContent>
+          <app-student-table archive="false"></app-student-table>
+        </ng-template>
+      </ngb-tab>
+    
+      <ngb-tab>
+          <ng-template ngbTabTitle>
+              <span><b>Novi član</b></span>
+            </ng-template>
+        <ng-template ngbTabContent>
+          <app-form></app-form>
+        </ng-template>
+      </ngb-tab>
+      
+            <ngb-tab>
+                <ng-template ngbTabTitle>
+                  <span><b>Godišnje članarine</b></span>
+                </ng-template>
+              <ng-template ngbTabContent>
+                <app-annual-fees></app-annual-fees>
+              </ng-template>
+            </ngb-tab>
+    
+      <ngb-tab>
+          <ng-template ngbTabTitle>
+            <span><b>Arhiva</b></span>
+          </ng-template>
+        <ng-template ngbTabContent>
+          <app-archive></app-archive>
+        </ng-template>
+      </ngb-tab>
+  
+      <ngb-tab *ngFor="let tab of closableTabs" [attr.id]="tab.id">
+        <ng-template ngbTabTitle>
+          <span><b>{{tab.name}}</b></span>&nbsp;&nbsp;
+          <span class="close-tab" (click)="closeTab(tab, $event)">x</span>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div *ngIf="tab.type === 'student'">
+            <app-student studId="{{tab.studId}}"></app-student>
+          </div>
+          <div *ngIf="tab.type === 'clanarina'">
+            <app-fees studId="{{tab.studId}}"></app-fees>
+          </div>
+          <div *ngIf="tab.type === 'suspenzija'">
+              <app-suspensions studId="{{tab.studId}}"></app-suspensions>
+            </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>  
+    </div>

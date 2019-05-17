@@ -10,7 +10,15 @@ import { NgxElectronModule } from 'ngx-electron';
 import { InitComponent } from './init/init.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FilterTablePipe } from './pipes/filter-table.pipe';
-import { ReversePipe } from './pipes/reverse.pipe';
+import { StudentComponent } from './student/student.component';
+import { TabsComponent } from './tabs/tabs.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { FeesComponent } from './fees/fees.component';
+import { SuspensionsComponent } from './suspensions/suspensions.component';
+import { DatePipe } from './pipes/date.pipe';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { AnnualFeesComponent } from './annual-fees/annual-fees.component';
+import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +28,14 @@ import { ReversePipe } from './pipes/reverse.pipe';
     InitComponent,
     NgbdSortableHeader,
     FilterTablePipe,
-    ReversePipe
+    StudentComponent,
+    TabsComponent,
+    ArchiveComponent,
+    FeesComponent,
+    SuspensionsComponent,
+    DatePipe,
+    AnnualFeesComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
@@ -28,7 +43,8 @@ import { ReversePipe } from './pipes/reverse.pipe';
     FormsModule,
     NgxElectronModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

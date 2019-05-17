@@ -1,1 +1,1 @@
-{"version":3,"file":"student.js","sourceRoot":"","sources":["../../../../../src/assets/models/student.ts"],"names":[],"mappings":";;AAIA;IA+BI,iBAAmB,IAAsB;QACrC,MAAM,CAAC,MAAM,CAAC,IAAI,EAAE,IAAI,CAAC,CAAC;IAC9B,CAAC;IACL,cAAC;AAAD,CAAC,AAlCD,IAkCC;AAlCY,0BAAO"}
+{"version":3,"file":"student.js","sourceRoot":"","sources":["../../../../../src/assets/models/student.ts"],"names":[],"mappings":";;AAIA;IAiCI,iBAAmB,IAAsB;QAFzC,cAAS,GAAY,KAAK,CAAC;QAGvB,MAAM,CAAC,MAAM,CAAC,IAAI,EAAE,IAAI,CAAC,CAAC;IAC9B,CAAC;IACL,cAAC;AAAD,CAAC,AApCD,IAoCC;AApCY,0BAAO"}

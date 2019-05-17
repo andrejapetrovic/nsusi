@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../service/data.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { SearchService } from '../service/search.service';
 import { NgForm } from '@angular/forms';
 import { Student } from 'src/assets/models/student';
@@ -15,12 +13,10 @@ import { StudentRow } from '../view-models/student-row';
 })
 export class FormComponent implements OnInit {
 
-  constructor(private searchService: SearchService, private dataService: DataService) { }
+  constructor(public searchService: SearchService, public dataService: DataService) { }
 
-  ngOnInit() {
-
-    
-    
+  ngOnInit() {    
+  
   }
 
   toggleOptions(event, elementId) {
@@ -37,7 +33,7 @@ export class FormComponent implements OnInit {
     let val = form.value;
 
     val.jez ? val.jezici = this.str2Arr(val.jezici) : val.jezici = []; 
-    val.drVest ? val.drugeVes = this.str2Arr(val.drugeVes) : val.drVest = [];
+    val.drVest ? val.drugeVes = this.str2Arr(val.drugeVes) : val.drugeVes = [];
     delete val.jez;
     delete val.drVest;
     val.mob = val.pozBrMob + " " + val.mob;
@@ -74,15 +70,20 @@ export class FormComponent implements OnInit {
     delete val.smer;
     delete val.godStud;
     delete val.godUpis;
-    val.drugeVes = this.str2Arr(val.drugeVes);
     val.studOrgs = this.str2Arr(val.studOrgs);
     val.suspenzije = [];
     val.aktivan = true;
-    val.nedostupan = false;
+    if(!val.pisanjeProj) val.pisanjeProj = false;
+    if(!val.radVes) val.radVes = false;
+    //val.nedostupan = false;
     val.prisSkup = [];
     let student = new Student(val);
-   
-    this.dataService.students.push(new StudentRow(student));
+    student.clanarine = [];
+    let clanarina = this.dataService.clanarine.filter( cln => cln.god === this.dataService.godClanarine) ;
+    student.clanarine.push(clanarina[0]);
+    val.arhiviran = false;
+    console.log(student);
+    this.dataService.addStudent(student);
   }
 
   private str2Arr(arrStr: string): any[] {

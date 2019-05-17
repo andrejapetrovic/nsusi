@@ -21,29 +21,24 @@ table {
   display: block;
   white-space: normal;
   overflow-x: scroll;
-}
-
-.rucica {
-  cursor: pointer;
+  text-align: center;
+  
 }
 
 th { 
-  min-width: 200px;
+  min-width: 170px;
+  vertical-align: middle !important;
 }
 
 td {
-  min-width: 150;
+  min-width: 120;
+  vertical-align: middle;
 }
 
 .btn-td, .btn-th { 
   min-width: 80px;
-  max-width: 80px;
+  max-width: 160px;
   text-align: center;
-}
-
-.edit-cell { 
-  min-width: 200px;
-  max-width: 200px;
 }
 
 button.calendar, button.calendar:active {
@@ -149,4 +144,12 @@ ngbd-table-complete span.ngb-highlight {
 
 .toggle-state:checked ~ .toggle-inner .indicator {
    transform: translate3d(25%, 0, 0);
+}
+
+.suspended {
+  background-color: red;
+}
+
+.filter-label{
+  padding-top: 7px; 
 }

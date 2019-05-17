@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'reverse'
+  name: 'search'
 })
-export class ReversePipe implements PipeTransform {
+export class SearchPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return value.slice().reverse();
+    return null;
   }
 
 }

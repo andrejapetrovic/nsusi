@@ -1,0 +1,48 @@
+<br><div class="col-sm-8" style="margin: 0 auto;">
+<table class="table table-striped table-bordered" style="text-align: center">
+  <thead>
+    <th scope="col">Godina</th>
+    <th scope="col">Status</th>
+    <th scope="col">Iznos</th>
+    <th scope="col">Datum uplate</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cln of studentRow.student.clanarine">
+      <td>{{cln.god}}</td>
+      <td><span *ngIf="cln.placena; else nije">Plaćena</span> 
+        <ng-template #nije>Neplaćena</ng-template>
+      </td>
+      <td>{{cln.iznos}}</td>
+      <td>{{cln.dat | date}}</td>
+      <td>
+        <button *ngIf="!cln.placena" (click)="openModal(content, cln)" class="btn btn-primary btn-sm">Potvrdi plaćanje</button>
+      </td>
+    </tr>
+    <tr>
+      
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Potvrda članarine</h4>
+      <span class="close rucica" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </span>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="platiCln(modalForm)" #modalForm="ngForm">
+        <div class="form-group">
+          <label for="dat">Datum uplate</label>
+          <div class="input-group">
+            <input type="text" id="dat" class="form-control" ngModel name="dat">&nbsp;
+            <input type="submit" class="btn btn-outline-dark" value="Potvrdi plaćanje" />
+          </div>
+        </div>
+      </form>
+      </div>
+  </ng-template>

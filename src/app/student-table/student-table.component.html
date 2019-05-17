@@ -1,48 +1,27 @@
-<div class="col-lg-12">
-<div class="sticky">
-<h2>Test/Demo verzija aplikacije, podaci uneti ili promenjeni se nece trajno sacuvati nakon sledeceg refresha/ulaska.
-  Konacna verzija aplikacije nece biti web vec desktop s pristupom bazi hostovanoj na online cloud servisu
-</h2>
-<h2>Bice dodato jos filtera, i dodavanje suspenzija i pregled suspenzija, dugme za arhiviranje, arhiva ce izgledati isto ovako,
-</h2>
-<h2>
-  da bi se red u tabeli editovao, klikne se edit ili dupli klik na red, sacuva se na save dugme u tabeli ili na enter dok je fokus na polju za unos
-</h2>
-<br>
-<div class="toolbar">
-  <div class="btn-group float-right">
-    <button type="button" class="btn btn-light" onclick="this.blur();">Profil</button>
-    <button type="button" class="btn btn-light" onclick="this.blur();">Odjavi se</button>
-  </div>
-</div>
-<br>
-</div>
 
 <div>
-<ngb-tabset #tabs>
-  <ngb-tab title="Tabela članova">
-    <ng-template ngbTabContent>
-      <br>
+  <br>
+  <div class="col-sm-12" style="background-color: whitesmoke">
       <div class="row">
         <div class="col-sm-2">
           <label>Ime</label>
-          <input class="form-control" type="text" [(ngModel)]="ime"/>
+          <input class="form-control" type="text" [(ngModel)]="ime" [ngbTypeahead]="searchService.searchImena"/>
         </div>
         <div class="col-sm-2">
             <label>Prezime</label>
-            <input class="form-control" type="text" [(ngModel)]="prz"/>
+            <input class="form-control" type="text" [(ngModel)]="prz" [ngbTypeahead]="searchService.searchPrezimena"/>
         </div>
         <div class="col-sm-2">
           <label>Fakultet</label>
-          <input class="form-control" type="text" [(ngModel)]="fakultet"/>
+          <input class="form-control" type="text" [(ngModel)]="fakultet" [ngbTypeahead]="searchService.searchFakulteti"/>
       </div>
       <div class="col-sm-2">
         <label>Smer</label>
-        <input class="form-control" type="text" [(ngModel)]="smer"/>
+        <input class="form-control" type="text" [(ngModel)]="smer" [ngbTypeahead]="searchService.searchSmerovi"/>
     </div>
     <div class="col-sm-2">
       <label>Godina upisa</label>
-      <input class="form-control" type="text" [(ngModel)]="godUpis"/>
+      <input class="form-control" type="text" [(ngModel)]="godUpis" [ngbTypeahead]="searchService.searchSkGod"/>
     </div>
     <div class="col-sm-2">
       <label>Godina studija</label>
@@ -50,107 +29,220 @@
     </div>
       </div><br>
 
+      <div class="row">
+        <div class="col-sm-2">
+          <label>Školska godina učlanjenja</label>
+          <input class="form-control" type="text" [(ngModel)]="godUcl" [ngbTypeahead]="searchService.searchSkGod"/>
+        </div>
+        <div class="col-sm-2">
+            <label>Dijagnoza</label>
+            <input class="form-control" type="text" [(ngModel)]="dijagnoza" [ngbTypeahead]="searchService.searchDijagnoze"/>
+        </div>
+        <div class="col-sm-2">
+          <label>Dodatna podrška</label>
+          <input class="form-control" type="text" [(ngModel)]="dodatnaPodrska" [ngbTypeahead]="searchService.searchDp"/>
+      </div>
+      <div class="col-sm-2">
+        <label>Jezici</label>
+        <input class="form-control" type="text" [(ngModel)]="jezici" [ngbTypeahead]="searchService.searchJezici"/>
+    </div>
+    <div class="col-sm-2">
+      <label>Računarske veštine</label>
+      <input class="form-control" type="text" [(ngModel)]="racVest" [ngbTypeahead]="searchService.searchRv"/>
+    </div>
+    <div class="col-sm-2">
+      <label>Druge organizacije</label>
+      <input class="form-control" type="text" [(ngModel)]="studOrgs" [ngbTypeahead]="searchService.searchOrgs"/>
+    </div>
+      </div><br>
+
+      <div class="row">
+        <div class="col-sm-2">
+          <label>Mesto Rodjenja</label>
+          <input class="form-control" type="text" [(ngModel)]="mestoRodj" [ngbTypeahead]="searchService.searchMesta"/>
+        </div>
+        <div class="col-sm-2">
+            <label>Mesto stanovanja</label>
+            <input class="form-control" type="text" [(ngModel)]="mestoStan" [ngbTypeahead]="searchService.searchMesta"/>
+        </div>
+        <div class="col-sm-2">
+            <label>Ulica</label>
+            <input class="form-control" type="text" [(ngModel)]="ulica" [ngbTypeahead]="searchService.searchUlice"/>
+        </div>
+        <div class="col-sm-2">
+          <label>Godine prisustva skupštini</label>
+          <input class="form-control" type="text" [(ngModel)]="prisSkup" [ngbTypeahead]="searchService.searchSkGod"/>
+      </div>
+      <div class="col-sm-2">
+        <label>Druge veštine</label>
+        <input class="form-control" type="text" [(ngModel)]="drugeVes" [ngbTypeahead]="searchService.searchDv"/>
+    </div>
+    <div class="col-sm-2">
+      <label>Način polaganja ispita</label>
+      <input class="form-control" type="text" [(ngModel)]="ispit" [ngbTypeahead]="searchService.searchIspiti"/>
+    </div>
+      </div><br>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-check form-check-inline">
+              <label class="filter-label" for="rv">Radioničarske veštine:</label>&nbsp;&nbsp;
+              <input class="form-check-input" type="checkbox" id="rv" [(ngModel)]="radVesDa">
+              <label class="form-check-label" for="rv">
+                  DA
+              </label>&nbsp;&nbsp;
+              <input name="radVes" class="form-check-input" type="checkbox" value="" id="rvne" [(ngModel)]="radVesNe">
+              <label class="form-check-label" for="rvne">
+                  NE
+              </label>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="col-check form-check-inline">
+                <label class="filter-label" for="pproj">Pisanje projekata:</label>&nbsp;&nbsp;
+                <input class="form-check-input" type="checkbox" id="pproj" [(ngModel)]="pprojDa">
+                <label class="form-check-label" for="pproj">
+                  DA
+                </label>&nbsp;&nbsp;
+                <input class="form-check-input" type="checkbox" id="pprojNe" [(ngModel)]="pprojNe">
+                <label class="form-check-label" for="pprojNe">
+                  NE
+                </label>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="col-check form-check-inline">
+              <label class="filter-label" for="aktivan">Aktivan:</label>&nbsp;&nbsp;
+                <input class="form-check-input" type="checkbox"id="aktivan" [(ngModel)]="aktivanDa">
+                <label class="form-check-label" for="aktivan">
+                  DA
+                </label>&nbsp;&nbsp;
+                <input class="form-check-input" type="checkbox" id="aktivanNe" [(ngModel)]="aktivanNe">
+                <label class="form-check-label" for="aktivanNe">
+                  NE
+                </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="col-check form-check-inline">
+                <label class="filter-label" for="aktivan">Suspendovan:</label>&nbsp;&nbsp;
+                  <input class="form-check-input" type="checkbox" id="susp" [(ngModel)]="suspDa">
+                  <label class="form-check-label" for="susp">
+                    DA
+                  </label>&nbsp;&nbsp;
+                  <input class="form-check-input" type="checkbox" id="suspNe" [(ngModel)]="suspNe">
+                  <label class="form-check-label" for="suspNe">
+                    NE
+                  </label>&nbsp;&nbsp;
+              </div>
+        </div>
+      </div><br>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="col-check form-check-inline">
+                  <form class="form-inline" (ngSubmit)="prikazClnZaGod(clnForm.value.cln)" #clnForm="ngForm">
+                      <label for="god" class="mr-sm-2">Prikaži članarine za školsku godinu</label>
+                        <input type="text" class="form-control mb-2 mr-sm-2 col-sm-3" id="god" [value]="clanarina" 
+                          [ngModel]="clanarina" name="cln" [ngbTypeahead]="searchService.searchSkGod">
+                      <button type="submit" class="btn btn-outline-dark mb-2">Potvrdi</button>
+                      &nbsp;&nbsp;&nbsp;
+                      <label for="pc">Plaćene članarine:</label>&nbsp;&nbsp;
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="clnDa" id="pc" name="clnDa">
+                      <label class="form-check-label" for="pc">
+                        DA
+                      </label>&nbsp;&nbsp;
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="clnNe" id="pcNe" name="clnNe">
+                      <label class="form-check-label" for="pcNe">
+                        NE
+                      </label>
+                    </form>
+                  </div>
+                </div>
+              </div>
+      
+    
+</div><br>
 <table class="table table-bordered table-striped">
   <thead>
   <tr>
     <th class="btn-th"></th>
-    <th scope="col" sortable="ime" (sort)="onSort($event)"><div class="student-cell">Ime</div></th>
-    <th scope="col" sortable="prz" (sort)="onSort($event)"><div class="student-cell">Prezime</div></th>
-    <th scope="col"><div class="student-cell">Članarina</div></th>
-    <th scope="col"><div class="student-cell">Datum učlanjena</div></th>
-    <th scope="col" sortable="fakultet" (sort)="onSort($event)"><div class="student-cell">Fakultet</div></th>
-    <th scope="col" sortable="smer" (sort)="onSort($event)"><div class="student-cell">Smer</div></th>
-    <th scope="col" sortable="godUpis" (sort)="onSort($event)"><div class="student-cell">Godina upisa</div></th>
-    <th scope="col" sortable="godStud" (sort)="onSort($event)"><div class="student-cell">Godina studija</div></th>
-    <th scope="col"><div class="student-cell">Mesto stanovanja</div></th>
-    <th scope="col"><div class="student-cell">Mesto rođenja</div></th>
-    <th scope="col"><div class="student-cell">Datum rođenja</div></th>
-    <th scope="col"><div class="student-cell">Broj fiksnog</div></th>
-    <th scope="col"><div class="student-cell">Broj mobilnog</div></th>
-    <th scope="col"><div class="student-cell">JMBG</div></th>
-    <th scope="col"><div class="student-cell">Broj lične karte</div></th>
-    <th scope="col"><div class="student-cell">Član</div></th>
-    <th scope="col"><div class="student-cell">Tip invaliditeta</div></th>
-    <th scope="col"><div class="student-cell">Dijagnoza</div></th>
-    <th scope="col"><div class="student-cell">Dodatna podrska</div></th>
-    <th scope="col"><div class="student-cell">Jezici</div></th>
-    <th scope="col"><div class="student-cell">Računarske veštine</div></th>
-    <th scope="col"><div class="student-cell">Druge organizacije</div></th>
-    <th scope="col"><div class="student-cell">Pisanje projekata</div></th>
-    <th scope="col"><div class="student-cell">Radioničarske veštine</div></th>
-    <th scope="col"><div class="student-cell">Stepen aktivnosti</div></th>
-    <th scope="col"><div class="student-cell">Druge veštine</div></th>
-    <th scope="col"><div class="student-cell">Način polaganja ispita</div></th>
-    <th scope="col"><div class="student-cell">Prisustvo skupštini</div></th>
-    <th scope="col"><div class="student-cell">Suspenzije</div></th>
+    <th scope="col" sortable="ime" (sort)="onSort($event)">Ime</th>
+    <th scope="col" sortable="prz" (sort)="onSort($event)">Prezime</th>
+    <th scope="col">Članarina {{clanarina}}</th>
+    <th scope="col">Datum učlanjena</th>
+    <th scope="col">Godina učlanjena</th>
+    <th scope="col" sortable="fakultet" (sort)="onSort($event)">Fakultet</th>
+    <th scope="col" sortable="smer" (sort)="onSort($event)">Smer</th>
+    <th scope="col" sortable="godUpis" (sort)="onSort($event)">Godina upisa</th>
+    <th scope="col" sortable="godStud" (sort)="onSort($event)">Godina studija</th>
+    <th scope="col">Mesto stanovanja</th>
+    <th scope="col">Ulica</th>
+    <th scope="col">Mesto rođenja</th>
+    <th scope="col">Datum rođenja</th>
+    <th scope="col">Broj fiksnog</th>
+    <th scope="col">Broj mobilnog</th>
+    <th scope="col">JMBG</th>
+    <th scope="col">Broj lične karte</th>
+    <th scope="col">Član</th>
+    <th scope="col">Tip invaliditeta</th>
+    <th scope="col">Dijagnoza</th>
+    <th scope="col">Dodatna podrska</th>
+    <th scope="col">Jezici</th>
+    <th scope="col">Računarske veštine</th>
+    <th scope="col">Druge organizacije</th>
+    <th scope="col">Pisanje projekata</th>
+    <th scope="col">Radioničarske veštine</th>
+    <th scope="col">Stepen aktivnosti</th>
+    <th scope="col">Druge veštine</th>
+    <th scope="col">Način polaganja ispita</th>
+    <th scope="col">Prisustvo skupštini</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let stud of students | filterTable: ime: prz: fakultet: smer: godUpis: godStud; index as i">
+  <tr *ngFor="let stud of dataService.students | filterTable: ime: prz: fakultet: smer: godUpis: godStud:
+   godUcl: dijagnoza: dodatnaPodrska: jezici: racVest: studOrgs: mestoRodj: mestoStan: ulica: prisSkup: drugeVes: ispit:
+   radVesDa: radVesNe: pprojDa: pprojNe: aktivanDa: aktivanNe: suspDa: suspNe: clnDa: clnNe; index as i">
     <div *ngIf="stud.editable; then editRow else basicRow"></div>
     <ng-template #basicRow>
-      <td class="btn-td" (focus)="showLeft = true"><button class="btn btn-primary btn-sm" (click)="stud.editable = true">edit</button></td>
+      <td class="btn-td">
+          <div class="btn-group float-right">
+            <button *ngIf="stud.susp" class="btn btn-danger btn-sm" (click)="openSuspensions(stud)" onclick="this.blur();"
+              ngbPopover="{{stud.suspRazlog}}" popoverTitle="SUSPENDOVAN {{stud.suspDat}}" triggers="mouseenter:mouseleave">
+                <fa name="exclamation-circle" size="lg"></fa>
+            </button>
+            <button *ngIf="!stud.susp" class="btn btn-outline-dark btn-sm" onclick="this.blur();"
+            ngbPopover="Suspenduj" triggers="mouseenter:mouseleave" (click)="openSuspModal(content, stud)">
+              <fa name="user-times" size="lg"></fa>
+            </button>
+              <button class="btn btn-outline-dark btn-sm" (click)="stud.editable = true" onclick="this.blur();"
+              ngbPopover="Ažuriraj" triggers="mouseenter:mouseleave">
+                <fa name="edit" size="lg"></fa>
+              </button>
+              <button class="btn btn-outline-dark btn-sm" (click)="openEdit(stud)" onclick="this.blur();"
+              ngbPopover="Otvori upisnicu" triggers="mouseenter:mouseleave">
+                  <fa name="external-link-square" size="lg"></fa>
+              </button>
+            </div>
+      </td>
       <td (dblclick)="stud.editable = true">{{ stud.ime }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.prz }}</td>
-      <td (click)="stud.clanarinaCollapsed = !stud.clanarinaCollapsed"
-      [attr.aria-expanded]="!stud.clanarinaCollapsed" aria-controls="collapseCln" class="rucica">
-      <div *ngIf="!stud.clanarinaCollapsed">
+      <td>
         <div *ngIf="stud.clanarina; then placena else neplacena"></div>
-        <ng-template #placena>Plaćena</ng-template>
-        <ng-template #neplacena>Neplaćena</ng-template>&nbsp;
-          <a *ngIf="!stud.clanarina" (click)="platiCln(stud, $event)" class="rucica float-right" style="color: #3478F7"
-          ngbPopover="Potvrdi plaćanje članarine" triggers="mouseenter:mouseleave"><b>[+]</b>
-          </a>
-        </div>
-          <div id="collapseCln" [ngbCollapse]="!stud.clanarinaCollapsed">
-            <table class="table table-stripped">
-              <thead>
-                <th scope="col">Godina</th>
-                <th scope="col">Status</th>
-                <th scope="col">Iznos</th>
-                <th></th>
-              </thead>
-              <tbody>
-                <tr *ngFor="let cln of stud.student.clanarine">
-                  <td>{{cln.god}}</td>
-                  <td><span *ngIf="cln.placena; else nije">Plaćena</span> 
-                    <ng-template #nije>Neplaćena</ng-template>
-                  </td>
-                  <td>{{cln.iznos}} &nbsp;
-                  </td>
-                  <td>
-                      <a *ngIf="!cln.placena" (click)="platiCln(stud, $event)" class="rucica" style="color: #3478F7"
-                      ngbPopover="Potvrdi plaćanje članarine" triggers="mouseenter:mouseleave"><b>[+]</b></a>
-                    &nbsp;<a class="rucica" style="color: red"
-                    ngbPopover="Obriši" triggers="mouseenter:mouseleave" (click)="obrisiCln(stud, cln, $event)"><b>x</b></a>
-
-                  </td>
-                </tr>
-                <tr>
-                  
-                </tr>
-              </tbody>
-            </table>
-            <form class="row" (ngSubmit)="dodajCln(stud, clnForm)" #clnForm="ngForm">
-              <div class="col-sm-4">
-                      <input (click)="$event.stopPropagation()" class="form-control" type="text" placeholder="Godina"
-                      name="god" ngModel />
-                  </div>
-                  <div class="col-sm-4">
-                      <input name="iznos" ngModel (click)="$event.stopPropagation()" class="form-control" type="text" placeholder="Cena"/>
-                  </div>
-                  <div class="col-sm-4">
-                      <input (click)="$event.stopPropagation()" class="form-control btn btn-success btn-sm" type="submit" value="dodaj"/>
-                  </div>
-            </form>
-          </div>
+        <ng-template #placena><span style="color: green; font-weight: 500">PLAĆENA</span></ng-template>
+        <ng-template #neplacena>
+            <span style="color: red; font-weight: 500">NEPLAĆENA</span>&nbsp;
+            <span *ngIf="!stud.clanarina" (click)="openClnModal(contentCln, stud)" class="rucica"
+            ngbPopover="Potvrdi plaćanje" triggers="mouseenter:mouseleave" style="color: black">
+            <fa name="plus"></fa>
+          </span>
+        </ng-template>&nbsp;
+          <span (click)="openFees(stud)" class="rucica float-right" style="color:black"
+          ngbPopover="Detaljno" triggers="mouseenter:mouseleave">
+          <fa name="external-link-square" size="lg"></fa>
+      </span>
       </td>
       <td (dblclick)="stud.editable = true">{{ stud.datUcl }}</td>
+      <td (dblclick)="stud.editable = true">{{ stud.godUcl }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.fakultet }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.smer }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.godUpis }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.godStud | number }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.mestoStan }}</td>
+      <td (dblclick)="stud.editable = true">{{ stud.ulica }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.mestoRodj }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.dat }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.tel }}</td>
@@ -176,58 +268,42 @@
         <span *ngIf="stud.aktivan">AKTIVAN</span>
         <span *ngIf="!stud.aktivan">NEAKTIVAN</span>
       </td>
-      <td (dblclick)="stud.editable = true">{{ stud.drugeVest }}</td>
+      <td (dblclick)="stud.editable = true">{{ stud.drugeVes }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.ispit }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.prisSkup }}</td>
-      <td (click)="stud.suspCollapsed = !stud.suspCollapsed"
-      [attr.aria-expanded]="!stud.suspCollapsed" aria-controls="collapseCln" class="rucica">
-        <span ngbPopover="{{stud.suspRazlog}}" popoverTitle="{{stud.suspDat}}" triggers="mouseenter:mouseleave" 
-        style="color: red" *ngIf="stud.susp && !stud.suspCollapsed">
-          SUSPENDOVAN
-        </span>&nbsp;
-        <span *ngIf="stud.susp">
-          <a *ngIf="!stud.suspCollapsed" class="rucica" style="color: red"
-             ngbPopover="Ukini suspenziju" triggers="mouseenter:mouseleave" (click)="ukiniSusp(stud, $event)"><b>x</b></a>
-        </span>
-        <span *ngIf="!stud.susp"><button class="btn btn-link" (click)="openSuspModal(content, stud, $event)">Suspenduj</button></span>
-        <div *ngIf="stud.suspCollapsed">
-        <table class="table table-stripped">
-            <thead>
-              <th scope="col"><div class="student-cell">Datum suspenzije</div></th>
-              <th scope="col"><div class="student-cell">Razlog</div></th>
-              <th scope="col"><div class="student-cell">Datum prestanka</div></th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let susp of stud.suspenzije">
-              <td>{{susp.datSusp}}</td>
-              <td>{{susp.razlog}}</td>
-              <td >
-                <span *ngIf="!susp.datPrestanka; else postojiDatum">
-                  <a class="rucica" style="color: red"
-                  ngbPopover="Ukini suspenziju" triggers="mouseenter:mouseleave" (click)="ukiniSusp(stud, $event)">
-                  <b>x</b></a></span>
-                  <ng-template #postojiDatum>{{susp.datPrestanka}}</ng-template>
-              </td>   
-              </tr>
-            </tbody>
-        </table>
-      </div>
+      <td class="btn-td">
+          <button class="btn btn-danger btn-sm" (click)="archive(stud)">arhiviraj</button>
       </td>
 
     </ng-template>
     <ng-template #editRow>
-      <td class="btn-td"><button class="btn btn-success btn-sm" (click)="editStudentRow(i)">save</button></td>
+      <td class="btn-td"><button class="btn btn-success btn-sm" (click)="editStudentRow(i)">
+          <fa name="save" size="lg"></fa>
+      </button></td>
       <td><input type="text" class="form-control" [(ngModel)]="stud.ime" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.prz" (keyup.enter)="editStudentRow(i)"/></td>
       <td>
-      
-      </td>
-      <td><input type="text" class="form-control " [(ngModel)]="stud.datUcl" (keyup.enter)="editStudentRow(i)"/></td>
+          <div *ngIf="stud.clanarina; then placena else neplacena"></div>
+          <ng-template #placena>Plaćena</ng-template>
+          <ng-template #neplacena>Neplaćena
+              <span *ngIf="!stud.clanarina" (click)="openClnModal(contentCln, stud)" class="rucica"
+              ngbPopover="Potvrdi plaćanje" triggers="mouseenter:mouseleave" style="color: #3478F7">
+              <fa name="plus"></fa>
+          </span>
+          </ng-template>&nbsp;
+            <span *ngIf="!stud.clanarina" (click)="openFees(stud)" class="rucica float-right" style="color: #3478F7"
+            ngbPopover="Detaljno" triggers="mouseenter:mouseleave">
+            <fa name="external-link-square" size="lg"></fa>
+        </span>
+        </td>
+        <td><input type="text" class="form-control " [(ngModel)]="stud.datUcl" (keyup.enter)="editStudentRow(i)"/></td>
+        <td><input type="text" class="form-control " [(ngModel)]="stud.godUcl" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.fakultet" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.smer" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.godUpis" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.godStud" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.mestoStan" (keyup.enter)="editStudentRow(i)"/></td>
+      <td><input type="text" class="form-control " [(ngModel)]="stud.ulica" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.mestoRodj" (keyup.enter)="editStudentRow(i)"></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.dat" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.tel" (keyup.enter)="editStudentRow(i)"/></td>
@@ -279,43 +355,24 @@
               <div *ngIf="!stud.aktivan" class="label-text">NEAKTIVAN</div>  
             </label>
       </td>
-      <td><input type="text" class="form-control " [(ngModel)]="stud.drugeVest" (keyup.enter)="editStudentRow(i)"/></td>
+      <td><input type="text" class="form-control " [(ngModel)]="stud.drugeVes" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.ispit" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.prisSkup" (keyup.enter)="editStudentRow(i)"/></td>
+      <td class="btn-td">
+          <button class="btn btn-danger btn-sm" (click)="archive(stud)">arhiviraj</button>
+      </td>
     </ng-template>
   </tr>
   </tbody>
 </table>
 
-    </ng-template>
-  </ngb-tab>
-
-  <ngb-tab title="Novi član" [attr.id]="nc">
-    <ng-template ngbTabContent>
-      <app-form></app-form>
-    </ng-template>
-  </ngb-tab>
-
-  <ngb-tab *ngFor="let tab of closableTabs" [attr.id]="tab.id">
-    <ng-template ngbTabTitle>
-      <span>{{tab.name}}</span>&nbsp;&nbsp;
-      <span class="close-tab" (click)="closeTab(tab, $event)">x</span>
-    </ng-template>
-    <ng-template ngbTabContent>
-      <div *ngIf="tab.id === 'student'">
-
-      </div>
-    </ng-template>
-  </ngb-tab>
-</ngb-tabset>
-
 </div>
 <ng-template #content let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Nova suspenzija</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span type="button" class="close rucica" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
-      </button>
+      </span>
     </div>
     <div class="modal-body">
       <form (ngSubmit)="saveSusp(modalSuspForm)" #modalSuspForm="ngForm">
@@ -324,17 +381,37 @@
           <div class="input-group">
             <input type="text" id="razlog" class="form-control" ngModel name="razlog">
           </div>
-          <label for="dat">Datum</label>
+          <label for="dodatnaPodrska">Datum</label>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="god">Godina suspenzije</label>
           <div class="input-group">
             <input type="text" id="dat" class="form-control" ngModel name="datSusp">&nbsp;
+            <input type="text" id="god" class="form-control" ngModel name="godSusp">&nbsp;
             <input type="submit" class="btn btn-outline-dark" value="Potvrdi suspenziju" />
           </div>
         </div>
       </form>
       </div>
   </ng-template>
-  
-  <hr>
-  
-</div>
+
+  <ng-template #contentCln let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Potvrda uplaćene članarine</h4>
+        <span class="close rucica" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </span>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="platiCln(modalClnForm)" #modalClnForm="ngForm">
+          <div class="form-group">
+            <label for="dat">Datum uplate</label>
+            <div class="input-group">
+              <input type="text" id="dat" class="form-control" ngModel name="datPlacanja">&nbsp;
+              <input type="submit" class="btn btn-outline-dark" value="Potvrdi uplatu" />
+            </div>
+          </div>
+        </form>
+        </div>
+    </ng-template>
 

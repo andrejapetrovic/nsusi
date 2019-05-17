@@ -1,0 +1,1 @@
+mongodb+srv://aki:123@cluster0-jgedm.gcp.mongodb.net/

@@ -27,11 +27,13 @@ export class Student {
     racVest: string[];
     jezici: string[];
     studOrgs: string[];
-    prisSkup: number[];
+    prisSkup: string[];
     datUcl: Date;
+    godUcl: string;
     suspenzije: Suspenzija[];
     studInfo: StudInfo;
     clanarine: Clanarina[];
+    arhiviran: boolean = false;
 
     public constructor(init?:Partial<Student>) {
         Object.assign(this, init);

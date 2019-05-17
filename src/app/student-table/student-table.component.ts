@@ -1,18 +1,12 @@
-import { Component, OnInit, ViewChild, ViewChildren, QueryList, Directive, Input, Output, EventEmitter } from '@angular/core';
-import { Student } from '../../assets/models/student';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList, Directive, Input, Output, EventEmitter, Host } from '@angular/core';
 import { DataService } from '../service/data.service';
-import { NgbTabset, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabset, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StudentRow } from '../view-models/student-row';
 import { Clanarina } from 'src/assets/models/clanarina';
 import { NgForm } from '@angular/forms';
-import { Suspenzija } from 'src/assets/models/suspenzija';
-
-export interface ITab {
-  id: string;
-  name: string;
-  unique: boolean;
-  studId?: string;
-}
+import { TabsComponent } from '../tabs/tabs.component';
+import { ITab } from '../view-models/ITab';
+import { SearchService } from '../service/search.service';
 
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': 'asc', '': 'asc' };
@@ -50,55 +44,42 @@ export class NgbdSortableHeader {
 })
 export class StudentTableComponent implements OnInit {
 
-  private closableTabs: ITab[] = [];
-  private students: StudentRow[] = this.dataService.students;
-
   @ViewChild('tabs')
   private tabset: NgbTabset;
 
-  constructor(private dataService: DataService, private modalService: NgbModal) {
-    console.log(dataService.students);
+  clanarina: string = this.dataService.godClanarine;
+
+  constructor(public dataService: DataService, private modalService: NgbModal, @Host() private parent: TabsComponent,
+    public searchService: SearchService) {
   }
 
   ngOnInit() {
+    this.prikazClnZaGod(this.clanarina);
   }
-  
-  closeTab(tab: ITab, $event) {
-    $event.preventDefault();
-    this.closableTabs = this.closableTabs.filter(t => t.id !== tab.id);
-  }
-  
-  createUniqueTab(id, name) {
-    if (this.closableTabs.filter(tab => tab.id === id).length == 0) {
-      this.closableTabs.push({id: id, name: name, unique: true});
-      this.tabset.activeId = "ngb-tab-" + (this.closableTabs.length + 1);
-    }
+
+  prikazClnZaGod(god: string) {
+    this.dataService.godClanarine = god;
+    this.dataService.students.forEach( row => {
+      row.setClanarineZaGod(god);
+    })
   }
 
   editStudentRow(idx: number){
-    let row = this.students[idx];
+    let row = this.dataService.students[idx];
     row.editable = false;
-    console.log(row.updateModel());
+    this.dataService.updateStudent(row.updateModel());
   }
 
-  platiCln(studRow: StudentRow, $event) {
-    $event.stopPropagation();
-    studRow.platiClanarinu();
-  }
-
-  obrisiCln(studRow: StudentRow, cln: Clanarina, $event) {
-    $event.stopPropagation();
-    studRow.obrisiClanarinu(cln);
-  }
-
-  dodajCln(studRow: StudentRow, f: NgForm) {
-    studRow.dodajClanarinu(f.value);
-    f.resetForm();
-  }
-
-  private ukiniSusp(studRow: StudentRow, $event) {
-    $event.stopPropagation();
-    studRow.ukiniSuspenziju();
+  platiCln(form: NgForm) {
+    let dat = form.value.datPlacanja.split('. ');
+    let c: Clanarina = new Clanarina({
+      god: "2020/2021",
+      dat: new Date(dat[2], dat[1], dat[0])
+    }) 
+    let row = this.clnStud.platiClanarinu(c);
+    this.dataService.updateStudent(row.getModel());
+    form.resetForm();
+    this.modalService.dismissAll();
   }
 
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
@@ -112,7 +93,7 @@ export class StudentTableComponent implements OnInit {
     });
 
     // sorting 
-      this.students = [...this.students].sort((a, b) => {
+      this.dataService.students = [...this.dataService.students].sort((a, b) => {
         const res = compare(a[column], b[column]);
         return direction === 'asc' ? res : -res;
       });
@@ -120,9 +101,15 @@ export class StudentTableComponent implements OnInit {
 
   private suspStud: StudentRow ;
   
-  openSuspModal(content, studRow: StudentRow, $event) {
-    $event.stopPropagation();
+  openSuspModal(content, studRow: StudentRow) {
     this.suspStud = studRow;
+    this.modalService.open(content, { centered: true });
+  }
+
+  private clnStud: StudentRow ;
+  
+  openClnModal(content, studRow: StudentRow) {
+    this.clnStud = studRow;
     this.modalService.open(content, { centered: true });
   }
 
@@ -132,5 +119,53 @@ export class StudentTableComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
+  archive(stRow: StudentRow) {
+    this.dataService.students = this.dataService.students
+      .filter( s => s._id !== stRow._id);
+    this.dataService.archive.push(stRow);
+    console.log(this.dataService.students);
+    stRow.arhiviraj();
+    this.dataService.updateStudent(stRow.getModel());
+  }
 
+  openEdit(stRow: StudentRow) {
+    let tab: ITab = {
+      type: "student",
+      studId: stRow._id,
+      name: "Ažuriraj (" + stRow.ime + " " + stRow.prz+ ")",
+      unique: true,
+      id: "student"+stRow._id     
+    }
+    this.parent.createUniqueTab(tab);
+  }
+
+  openFees(stRow: StudentRow) {
+    let tab: ITab = {
+      type: "clanarina",
+      studId: stRow._id,
+      name: "Članarine (" + stRow.ime + " " + stRow.prz+ ")",
+      unique: true,
+      id: "clanarina"+stRow._id     
+    }
+    this.parent.createUniqueTab(tab);
+  }
+
+  openSuspensions(stRow: StudentRow) {
+    let tab: ITab = {
+      type: "suspenzija",
+      studId: stRow._id,
+      name: "Suspenzije (" + stRow.ime + " " + stRow.prz+ ")",
+      unique: true,
+      id: "suspenzija"+stRow._id     
+    }
+    this.parent.createUniqueTab(tab);
+  }
+
+  // filteri
+ime; prz; fakultet; smer; godUpis; godStud;
+godUcl; dijagnoza; dodatnaPodrska; jezici; racVest; studOrgs;
+mestoRodj; mestoStan; prisSkup; drugeVes;  ispit; ulica;
+radVesDa; radVesNe; aktivanDa; aktivanNe;
+pprojDa; pprojNe; suspDa; suspNe;
+clnDa; clnNe;
 }

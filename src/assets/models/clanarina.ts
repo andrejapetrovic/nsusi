@@ -4,7 +4,7 @@ export class Clanarina {
     iznos: string;
     dat: Date;
     placena: boolean;
-    god: number;
+    god: string;
 
     public constructor(init?:Partial<Clanarina>) {
         Object.assign(this, init);

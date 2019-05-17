@@ -10,16 +10,7 @@ export class SearchService {
 
   constructor(private dataService: DataService) { }
 
-  private search(arr: any[]) {
-    let retVal = (text$: Observable<string>) =>
-    text$.pipe(
-      map(term => term.length < 1 ? [] 
-        : arr.filter(arg => arg.toLowerCase().indexOf(term) > -1).slice(0, 10))
-    )
-    return retVal;
-  }
-
-  private multiSearch(arr: any[]) {
+  /*private multiSearch(arr: any[]) {
     let retVal = (text$: Observable<string>) =>
     text$.pipe(
       map(term => {
@@ -36,10 +27,109 @@ export class SearchService {
       })
       )
     return retVal;
-  }
+  }*/
 
-  searchPozMob() { return this.search(this.dataService.pozBrMob) }
-  searchMesta() { return this.search(this.dataService.mesta) }
-  searchPozBr() { return this.search(this.dataService.pozBrFiksni) }
-  searchJezici() { return this.search(this.dataService.jezici) }
+   
+  searchPozMob = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.pozBrMob.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+    searchMesta = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.mesta.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+   
+
+  
+    searchPozBr = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.pozBrFiksni.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+   
+    searchJezici = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.jezici.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+  
+  searchImena = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.imena.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+  searchPrezimena = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.prezimena.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+
+  searchFakulteti = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.fakulteti.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+  searchSmerovi = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.smerovi.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+  searchSkGod = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.skolskeGodine.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+  
+  searchOrgs = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.organizacije.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+  searchIspiti = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.polaganjeIspita.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+  
+  searchRv = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.racunarskeVestine.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+  searchDv = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.drugeVestine.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+  searchDijagnoze = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.dijagnoze.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+  searchDp = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.dodatnePodrske.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+  searchUlice = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => term.length < 1 ? [] 
+        : this.dataService.ulice.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+  
+  
 }

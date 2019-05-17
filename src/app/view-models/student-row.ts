@@ -45,9 +45,8 @@ export class StudentRow {
     godUpis: string;
     clanarina: boolean;
     editable: boolean;
-    clanarinaColapsed: boolean;
-    suspColapsed: boolean;
     suspenzije: SuspenzijaRow[]; 
+    godUcl: string;
 
     public constructor(private student: Student) {
         this._id = student._id;
@@ -82,12 +81,11 @@ export class StudentRow {
         this.smer = student.studInfo.smer;
         this.godStud = student.studInfo.godStud;
         this.godUpis = student.studInfo.godUpis;
-        this.clanarina = this.platioClanarinu(student.clanarine);
+        //this.clanarina = this.platioClanarinu(student.clanarine);
         this.datUcl = this.parseDate(student.datUcl);
         this.editable = false;
-        this.suspColapsed = false;
-        this.clanarinaColapsed = true;
-        this.suspenzije = this.convertToClnRow(student.suspenzije); 
+        this.suspenzije = this.convertToSuspRow(student.suspenzije); 
+        this.godUcl = student.godUcl;
     }
 
     private parseDate(date: Date): string {
@@ -96,7 +94,7 @@ export class StudentRow {
     }
 
     private isSuspended(suspenzije: Suspenzija[]) {
-        if(!suspenzije) return false;
+        if(suspenzije.length == 0) return false;
         let susp = suspenzije[suspenzije.length-1];
         if(!susp)
             return true;        
@@ -106,7 +104,7 @@ export class StudentRow {
     }
 
     private getSuspInfo(suspenzije: Suspenzija[]) {
-        if(!suspenzije) return "";
+        if(suspenzije.length == 0) return ["", ""];
         let susp = suspenzije[suspenzije.length-1];      
         return [this.parseDate(susp.datSusp), susp.razlog];
     }
@@ -121,7 +119,7 @@ export class StudentRow {
         return arr.length == 0 ? arr[0] : arr.join(', '); 
     }
 
-    private convertToClnRow(suspenzije: Suspenzija[]): SuspenzijaRow[] {
+    private convertToSuspRow(suspenzije: Suspenzija[]): SuspenzijaRow[] {
         if (!suspenzije) return [];
         let retVal: SuspenzijaRow[] = [];
         suspenzije.forEach( s => {
@@ -164,14 +162,17 @@ export class StudentRow {
         this.student.studInfo.godStud = this.godStud;
         this.student.studInfo.godUpis = this.godUpis;
         this.student.datUcl = this.str2Date(this.datUcl);
+        this.student.godUcl = this.godUcl;
         return this.student;
     }
 
-    public platiClanarinu(){
+    public platiClanarinu(cln: Clanarina): StudentRow {
         if (!this.student.clanarine) return;
         this.clanarina = true;
-        let idx = this.student.clanarine.length - 1;
+        let idx = this.student.clanarine.indexOf( this.student.clanarine.find( c => c.god === cln.god) );
         this.student.clanarine[idx].placena = true;
+        this.student.clanarine[idx].dat = cln.dat;
+        return this;
     }
 
     public obrisiClanarinu(cln: Clanarina){
@@ -181,32 +182,26 @@ export class StudentRow {
     }
 
     public dodajClanarinu(cln: any){
-        if (!this.student.clanarine)
-            this.student.clanarine = [];
-        cln.placena = false;
-        cln.god = parseInt(cln.god);
         this.student.clanarine.push(new Clanarina(cln));
-        this.clanarina = false;
     }
 
-    public ukiniSuspenziju() {
+    public ukiniSuspenziju(suspenzija: Suspenzija) {
         this.susp = false;
         this.suspDat = "";
         this.suspRazlog = "";
         let susp = this.student.suspenzije[this.student.suspenzije.length-1];
-        susp.datPrestanka = new Date();
-        let s = this.suspenzije.pop();
-        s.datPrestanka = this.parseDate(susp.datPrestanka);
-        this.suspenzije.push(s);
+        susp.datPrestanka = suspenzija.datPrestanka;
+        susp.godPrestanka = suspenzija.godPrestanka;
     }
 
-    public dodajSuspenziju(susp) {
+    public dodajSuspenziju(susp): StudentRow {
         this.suspenzije.push(Object.assign({}, susp));
         this.suspDat = susp.datSusp; 
         susp.datSusp = this.str2Date(susp.datSusp);
         this.susp = true;
         this.suspRazlog = susp.razlog;
         this.student.suspenzije.push(susp);
+        return this;
     }
 
     private str2Date(dateStr: string): Date {
@@ -215,8 +210,29 @@ export class StudentRow {
     }
 
     private str2Arr(arrStr: string): any[] {
+        console.log(arrStr);
         if (!arrStr) return [];
         arrStr = arrStr.replace(/\s/g, '');
         return arrStr.includes(',') ? arrStr.split(',') : [arrStr];
     } 
+
+    public getModel() {
+        return this.student;
+    }
+
+    public arhiviraj() {
+        this.student.arhiviran = true;
+    }
+
+    public vratiIzArhive() {
+        this.student.arhiviran = false;
+    }
+
+    public setClanarineZaGod(god: string) {
+        this.student.clanarine.forEach( cln => {
+            if (cln.god === god) {
+                this.clanarina = cln.placena;
+            }
+        })
+    }
 } 

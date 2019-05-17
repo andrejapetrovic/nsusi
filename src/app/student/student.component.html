@@ -1,0 +1,229 @@
+<br><div class="toolbar">
+  <div class="btn-group">&nbsp;&nbsp;
+    <button type="button" class="btn btn-dark" (click)="openFees()" onclick="this.blur();">Članarine</button>
+    <button type="button" class="btn btn-dark" (click)="openSuspensions()" onclick="this.blur();">Suspenzije</button>
+    <button *ngIf="!student.arhiviran" type="button" (click)="archive()" class="btn btn-dark" onclick="this.blur();">Arhiviraj</button>
+    <button *ngIf="student.arhiviran" type="button" (click)="vrati()" class="btn btn-dark" onclick="this.blur();">Vrati iz arhive</button>
+    <span *ngIf="studentRow.susp" style="color: red">
+      &nbsp; <b>SUSPENDOVAN</b>
+    </span>
+    <span *ngIf="student.arhiviran">
+        &nbsp; <b>ARHIVIRAN</b>
+    </span>
+  </div>
+</div>
+<div class="col-lg-12">
+  <form (ngSubmit)="onSubmit(studentForm)" #studentForm="ngForm"><br>
+    <div class="row">
+        <div class="form-check">
+            &nbsp;&nbsp;
+            <input class="form-check-input" type="radio" name="tip" id="tip1" (change)="change('tip', 'Sa invaliditetom')" [checked]="student.tip == 'Sa invaliditetom'">
+            <label class="form-check-label" for="tip1">
+              Student sa invaliditetom
+            </label>
+          </div>
+          <div class="form-check">
+            &nbsp;&nbsp;
+            <input class="form-check-input" type="radio" name="tip" id="tip2" (change)="change('tip', 'Volonter')" [checked]="student.tip == 'Volonter'">
+            <label class="form-check-label" for="tip2">
+            Volonter
+            </label>
+          </div>
+    </div><br>
+    <div class="row">
+    <div class="form-check">
+        &nbsp;&nbsp;
+        <input class="form-check-input" type="radio" name="tipInv" id="exampleRadios3" (change)="change('tipInv', 'Sa invaliditetom')" value="Hronična Bolest" [checked]="student.tipInv == 'Hronična bolest'">
+        <label class="form-check-label" for="exampleRadios3">
+          Hronična bolest
+        </label>
+      </div>
+      <div class="form-check">
+        &nbsp;&nbsp;<input class="form-check-input" type="radio" name="tipInv" id="exampleRadios4" (change)="change('tipInv', 'Telesno oštećenje')" value="Telesno Oštecenje" [checked]="student.tipInv == 'Telesno oštećenje'">
+        <label class="form-check-label" for="exampleRadios4">
+          Telesno oštećenje
+        </label>
+      </div>
+        <div class="form-check">
+            &nbsp;&nbsp;<input class="form-check-input" type="radio" name="tipInv" id="exampleRadios5" (change)="change('tipInv', 'Drugo')" value="Drugo" [checked]="student.tipInv == 'Drugo'">
+            <label class="form-check-label" for="exampleRadios5">
+              Drugo
+            </label>
+      </div>
+</div><br>
+    <div class="row">
+      <div class="col-sm-2">
+        <label for="ime">Ime</label>
+        <input name="ime" type="text" id="ime" class="form-control" [(ngModel)]="student.ime" [ngbTypeahead]="searchService.searchImena">
+      </div>
+      <div class="col-sm-2">
+          <label for="prezime">Prezime</label>
+          <input name="prz" type="text" id="prezime" class="form-control" [(ngModel)]="student.prz" [ngbTypeahead]="searchService.searchPrezimena">
+      </div>
+      <div class="col-sm-2">
+        <label for="dat">Datum rođenja</label>
+        <input name="dat" [(ngModel)]="help.dat" type="text" if="dat" class="form-control" placeholder="d. m. god">
+      </div>
+      <div class="col-sm-3">
+        <label for="mesto-rodj">Mesto rođenja</label>
+        <input name="mestoRodj" [(ngModel)]="student.mestoRodj" type="text" id="mesto-rodj" class="form-control" [ngbTypeahead]="searchService.searchMesta">
+      </div>
+      <div class="col-sm-3">
+        <label for="mesto-stan">Mesto stanovanja</label>
+        <input name="mestoStan" [(ngModel)]="student.mestoStan" type="text" id="mesto-stan" class="form-control" [ngbTypeahead]="searchService.searchMesta">
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col-sm-4">
+        <label for="ulica">Ulica i broj</label>
+        <input name="ulica" [(ngModel)]="student.ulica" type="text" id="ulica" class="form-control" [ngbTypeahead]="searchService.searchUlice">
+      </div>
+      <div class="col-sm-1">
+        <label for="phone-code">Poz. br.</label>
+        <input name="pozBrMob" [(ngModel)]="help.pozMob" type="text" id="phone-code" class="form-control" [ngbTypeahead]="searchService.searchPozMob">
+      </div>
+      <div class="col-sm-3">
+        <label for="phone-mob">Mobilni telefon</label>
+        <input name="mob" [(ngModel)]="help.mob" type="text" id="phone-mob" class="form-control">
+      </div>
+      <div class="col-sm-1">
+        <label for="phone-code2">Poz. br.</label>
+        <input name="pozBrFik" [(ngModel)]="help.pozTel" type="text" id="phone-code2" class="form-control" [ngbTypeahead]="searchService.searchPozBr">
+      </div>
+      <div class="col-sm-3">
+        <label for="phone-f">Fiksni telefon</label>
+        <input name="tel" [(ngModel)]="help.tel" type="text" id="phone-f" class="form-control">
+      </div>
+    </div><br>
+  
+  <div class="row">
+      <div class="col-sm-4">
+        <label for="fak">Fakultet</label>
+        <input name="fakultet" [(ngModel)]="student.studInfo.fakultet" type="text" id="fak" class="form-control" [ngbTypeahead]="searchService.searchFakulteti">
+      </div>
+      <div class="col-sm-4">
+          <label for="smer">Smer</label>
+          <input name="smer" [(ngModel)]="student.studInfo.smer" type="text" id="smer" class="form-control" [ngbTypeahead]="searchService.searchSmerovi">
+      </div>
+      <div class="col-sm-2">
+          <label for="god-upis">Godina upisa</label>
+          <input name="godUpis" [(ngModel)]="student.godUpis" type="text" id="god-upis" class="form-control" placeholder="npr. 2014/15" [ngbTypeahead]="searchService.searchSkGod">
+      </div>
+      <div class="col-sm-2">
+          <label for="god-stud">Godina studija</label>
+          <input name="godStud" [(ngModel)]="student.studInfo.godStud" type="text" id="god-stud" class="form-control">
+      </div>
+  </div><br>
+  <div class="row">
+      <div class="col-sm-4">
+          <label for="dijagnoza">Vrsta invaliditeta (dijagnoza)</label>
+          <input name="dijagnoza" [(ngModel)]="student.dijagnoza" type="text" id="dijagnoza" class="form-control" [ngbTypeahead]="searchService.searchDijagnoze">
+      </div> 
+      <div class="col-sm-4">
+          <label for="dod-pod">Potreba za dodatnom podrškom</label>
+          <input name="dodatnaPodrska" [(ngModel)]="student.dodatnaPodrska" type="text" id="dod-pod" class="form-control" [ngbTypeahead]="searchService.searchDp">
+      </div>
+      <div class="col-sm-4">
+          <label for="pol-isp">Način polaganja ispita</label>
+          <input name="ispit" [(ngModel)]="student.ispit" type="text" id="pol-isp" class="form-control" [ngbTypeahead]="searchService.searchIspiti">
+      </div>                     
+  </div><br>
+  <div class="row">
+      <div class="col-sm-2">
+          <label for="jmbg">JMBG</label>
+          <input name="jmbg" [(ngModel)]="student.jmbg" type="text" id="jmbg" class="form-control">
+      </div>
+      <div class="col-sm-2">
+          <label for="lk">Broj lične karte</label>
+          <input name="brLicne" [(ngModel)]="student.brLicne" type="text" id="lk" class="form-control">
+      </div>
+      <div class="col-sm-2">
+          <label for="lk">Datum učlanjenja</label>
+          <input name="datUcl" [(ngModel)]="help.datUcl" type="text" id="lk" class="form-control">
+      </div>
+      <div class="col-sm-2">
+          <label for="lk">Školska godina učlanjenja</label>
+          <input name="godUcl" [(ngModel)]="student.godUcl" type="text" id="lk" class="form-control" [ngbTypeahead]="searchService.searchSkGod">
+      </div>
+      <div class="col-sm-4">
+          <label for="ps">Godine prisustva skupštini</label>
+          <input name="ps" [(ngModel)]="help.prisSkup" type="text" id="ps" class="form-control" [ngbTypeahead]="searchService.searchSkGod">
+      </div>
+  </div><br>
+  <div class="row">
+      <div class="col-sm-6">
+        <label for="studOrgs">Članstvo u drugim organizacijama</label>
+        <input name="studOrgs" [(ngModel)]="student.studOrgs" type="text" id="studOrgs" class="form-control" [ngbTypeahead]="searchService.searchOrgs">
+      </div>
+      <div class="col-sm-6">
+        <label for="jez">Znanje jezika</label>
+        <input name="jez" [(ngModel)]="help.jezici" type="text" id="jez" class="form-control" [ngbTypeahead]="searchService.searchJezici">
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-check form-check-inline">
+            <input name="radVes" [(ngModel)]="student.radVest" class="form-check-input" type="checkbox" value="" id="rv">
+            <label class="form-check-label" for="rv">
+              Radioničarske veštine
+            </label>
+          </div>
+          <div class="col-check form-check-inline">
+              <input name="pisanjeProj" [(ngModel)]="student.pisanjeProj" class="form-check-input" type="checkbox" value="" id="pproj">
+              <label class="form-check-label" for="pproj">
+                Pisanje projekata
+              </label>
+          </div>
+          <div class="col-check form-check-inline">
+              <input name="pisanjeProj" [(ngModel)]="student.aktivan" class="form-check-input" type="checkbox" value="" id="aktivan">
+              <label class="form-check-label" for="aktivan">
+                Aktivan
+              </label>
+          </div>
+      </div>
+
+    </div><br>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-check form-check-inline">
+          Računarske veštine: &nbsp; &nbsp;
+            <input name="word" [(ngModel)]="help.word" class="form-check-input" type="checkbox" value="" id="word">
+            <label class="form-check-label" for="word">
+              Word
+            </label>
+          </div>
+          <div class="col-check form-check-inline">
+              <input name="excel" [(ngModel)]="help.excel" class="form-check-input" type="checkbox" value="" id="excel">
+              <label class="form-check-label" for="excel">
+                Excel
+              </label>
+          </div>
+          <div class="col-check form-check-inline">
+              <input name="internet" [(ngModel)]="help.internet" class="form-check-input" type="checkbox" value="" id="internet">
+              <label class="form-check-label" for="internet">
+                Internet
+              </label>
+          </div>
+          <div class="col-check form-check-inline">
+              <input name="uopste" [(ngModel)]="help.uopste" class="form-check-input" type="checkbox" value="" id="uopste">
+              <label class="form-check-label" for="uopste">
+                Uopšte
+              </label>
+          </div>
+      </div>
+    </div><br>
+    
+    <div class="row">
+        <div class="col-sm-6">
+          <label for="ostalerv">Ostale računarske veštine</label>
+          <input name="ostalerv" [(ngModel)]="help.ostaleRv" type="text" id="ostalerv" class="form-control" [ngbTypeahead]="searchService.searchRv">
+        </div>
+        <div class="col-sm-6">
+          <label for="dv">Druge veštine</label>
+          <input name="dv" [(ngModel)]="help.drugeVes" type="text" id="dv" class="form-control" [ngbTypeahead]="searchService.searchDv">
+        </div>
+      </div><br>
+
+    <button type="submit">Ažuriraj studenta</button>
+  </form><br><br>
+</div>

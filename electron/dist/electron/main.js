@@ -39,7 +39,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
-var datamanager_1 = require("../src/assets/datamanager");
+var electron_2 = require("electron");
+var student_service_1 = require("../src/assets/services/student-service");
 var win;
 var globalShortcut = require('electron').globalShortcut;
 electron_1.app.on("ready", createWindow);
@@ -55,7 +56,7 @@ function createWindow() {
     win = new electron_1.BrowserWindow({ width: 1600, height: 700 });
     win.maximize();
     win.loadURL(url.format({
-        pathname: path.join(__dirname, "/../../../dist/inf-system/index.html"),
+        pathname: path.join(__dirname, '/../../../dist/inf-system/index.html'),
         protocol: "file:",
         slashes: true
     }));
@@ -63,6 +64,22 @@ function createWindow() {
     win.on("closed", function () {
         win = null;
     });
-    var datamanager = new datamanager_1.DataManager();
 }
+var fs = require('fs');
+var raw_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/database-url.txt'));
+var database_url = raw_data.toString('ascii', 0, raw_data.length);
+var MongoClient = require('mongodb').MongoClient;
+var client = new MongoClient(database_url, { useNewUrlParser: true });
+electron_2.ipcMain.on('connectToDb', function (event, arg) {
+    client.connect(function (err) {
+        if (err) {
+            event.sender.send('connectionStatus', "Problemi prilikom konekcije na server baze");
+            throw err;
+        }
+        event.sender.send('connectionStatus', "Uspešno konektovan na server baze");
+        console.log("Connected to database server");
+        var db = client.db('nsusi');
+        new student_service_1.StudentService(db, electron_2.ipcMain);
+    });
+});
 //# sourceMappingURL=main.js.map
