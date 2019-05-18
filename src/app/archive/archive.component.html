@@ -5,7 +5,7 @@
       <th class="btn-th"></th>
       <th scope="col">Ime</th>
       <th scope="col">Prezime</th>
-      <th scope="col">Članarina</th>
+      <th scope="col">Status</th>
       <th scope="col">Datum učlanjena</th>
       <th scope="col">Fakultet</th>
       <th scope="col">Smer</th>
@@ -31,7 +31,6 @@
       <th scope="col">Druge veštine</th>
       <th scope="col">Način polaganja ispita</th>
       <th scope="col">Prisustvo skupštini</th>
-      <th scope="col">Suspenzije</th>
     </tr>
     </thead>
     <tbody>
@@ -41,58 +40,9 @@
         </td>
         <td>{{ stud.ime }}</td>
         <td>{{ stud.prz }}</td>
-        <td (click)="stud.clanarinaCollapsed = !stud.clanarinaCollapsed"
-        [attr.aria-expanded]="!stud.clanarinaCollapsed" aria-controls="collapseCln" class="rucica">
-        <div *ngIf="!stud.clanarinaCollapsed">
-          <div *ngIf="stud.clanarina; then placena else neplacena"></div>
-          <ng-template #placena>Plaćena</ng-template>
-          <ng-template #neplacena>Neplaćena</ng-template>&nbsp;
-            <a *ngIf="!stud.clanarina" (click)="platiCln(stud, $event)" class="rucica float-right" style="color: #3478F7"
-            ngbPopover="Potvrdi plaćanje članarine" triggers="mouseenter:mouseleave"><b>[+]</b>
-            </a>
-          </div>
-            <div id="collapseCln" [ngbCollapse]="!stud.clanarinaCollapsed">
-              <table class="table table-stripped">
-                <thead>
-                  <th scope="col">Godina</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Iznos</th>
-                  <th></th>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let cln of stud.student.clanarine">
-                    <td>{{cln.god}}</td>
-                    <td><span *ngIf="cln.placena; else nije">Plaćena</span> 
-                      <ng-template #nije>Neplaćena</ng-template>
-                    </td>
-                    <td>{{cln.iznos}} &nbsp;
-                    </td>
-                    <td>
-                        <a *ngIf="!cln.placena" (click)="platiCln(stud, $event)" class="rucica" style="color: #3478F7"
-                        ngbPopover="Potvrdi plaćanje članarine" triggers="mouseenter:mouseleave"><b>[+]</b></a>
-                      &nbsp;<a class="rucica" style="color: red"
-                      ngbPopover="Obriši" triggers="mouseenter:mouseleave" (click)="obrisiCln(stud, cln, $event)"><b>x</b></a>
-  
-                    </td>
-                  </tr>
-                  <tr>
-                    
-                  </tr>
-                </tbody>
-              </table>
-              <form class="row" (ngSubmit)="dodajCln(stud, clnForm)" #clnForm="ngForm">
-                <div class="col-sm-4">
-                        <input (click)="$event.stopPropagation()" class="form-control" type="text" placeholder="Godina"
-                        name="god" ngModel />
-                    </div>
-                    <div class="col-sm-4">
-                        <input name="iznos" ngModel (click)="$event.stopPropagation()" class="form-control" type="text" placeholder="Cena"/>
-                    </div>
-                    <div class="col-sm-4">
-                        <input (click)="$event.stopPropagation()" class="form-control btn btn-success btn-sm" type="submit" value="dodaj"/>
-                    </div>
-              </form>
-            </div>
+        <td>
+          <span *ngIf="stud.stari">Stari student</span>
+          <span *ngIf="stud.nedostupan">Nedostupan</span>
         </td>
         <td>{{ stud.datUcl }}</td>
         <td>{{ stud.fakultet }}</td>
@@ -127,41 +77,7 @@
         </td>
         <td>{{ stud.drugeVest }}</td>
         <td>{{ stud.ispit }}</td>
-        <td>{{ stud.prisSkup }}</td>
-        <td (click)="stud.suspCollapsed = !stud.suspCollapsed"
-        [attr.aria-expanded]="!stud.suspCollapsed" aria-controls="collapseCln" class="rucica">
-          <span ngbPopover="{{stud.suspRazlog}}" popoverTitle="{{stud.suspDat}}" triggers="mouseenter:mouseleave" 
-          style="color: red" *ngIf="stud.susp && !stud.suspCollapsed">
-            SUSPENDOVAN
-          </span>&nbsp;
-          <span *ngIf="stud.susp">
-            <a *ngIf="!stud.suspCollapsed" class="rucica" style="color: red"
-               ngbPopover="Ukini suspenziju" triggers="mouseenter:mouseleave" (click)="ukiniSusp(stud, $event)"><b>x</b></a>
-          </span>
-          <span *ngIf="!stud.susp"><button class="btn btn-link" (click)="openSuspModal(content, stud, $event)">Suspenduj</button></span>
-          <div *ngIf="stud.suspCollapsed">
-          <table class="table table-stripped">
-              <thead>
-                <th scope="col">Datum suspenzije</th>
-                <th scope="col">Razlog</th>
-                <th scope="col">Datum prestanka</th>
-              </thead>
-              <tbody>
-                <tr *ngFor="let susp of stud.suspenzije">
-                <td>{{susp.datSusp}}</td>
-                <td>{{susp.razlog}}</td>
-                <td >
-                  <span *ngIf="!susp.datPrestanka; else postojiDatum">
-                    <a class="rucica" style="color: red"
-                    ngbPopover="Ukini suspenziju" triggers="mouseenter:mouseleave" (click)="ukiniSusp(stud, $event)">
-                    <b>x</b></a></span>
-                    <ng-template #postojiDatum>{{susp.datPrestanka}}</ng-template>
-                </td>   
-                </tr>
-              </tbody>
-          </table>
-        </div>
-        </td>
+        <td>{{ stud.prisSkup }}</td>  
     </tr>
     </tbody>
   </table>

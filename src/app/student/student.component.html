@@ -2,12 +2,12 @@
   <div class="btn-group">&nbsp;&nbsp;
     <button type="button" class="btn btn-dark" (click)="openFees()" onclick="this.blur();">Članarine</button>
     <button type="button" class="btn btn-dark" (click)="openSuspensions()" onclick="this.blur();">Suspenzije</button>
-    <button *ngIf="!student.arhiviran" type="button" (click)="archive()" class="btn btn-dark" onclick="this.blur();">Arhiviraj</button>
-    <button *ngIf="student.arhiviran" type="button" (click)="vrati()" class="btn btn-dark" onclick="this.blur();">Vrati iz arhive</button>
+    <button *ngIf="!student.stari && !student.nedostupan" type="button" (click)="openArhModal(contentArh)" class="btn btn-dark" onclick="this.blur();">Arhiviraj</button>
+    <button *ngIf="student.stari || student.nedostupan" type="button" (click)="vrati()" class="btn btn-dark" onclick="this.blur();">Vrati iz arhive</button>
     <span *ngIf="studentRow.susp" style="color: red">
       &nbsp; <b>SUSPENDOVAN</b>
     </span>
-    <span *ngIf="student.arhiviran">
+    <span *ngIf="student.stari || student.nedostupan">
         &nbsp; <b>ARHIVIRAN</b>
     </span>
   </div>
@@ -227,3 +227,35 @@
     <button type="submit">Ažuriraj studenta</button>
   </form><br><br>
 </div>
+
+<ng-template #contentArh arch-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Arhiviraj studenta kao</h4>
+      <span class="close rucica" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </span>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="arhiviraj(modalArhForm)" #modalArhForm="ngForm">
+       
+            <div class="row">
+                <div class="form-check">
+                    &nbsp;&nbsp;
+                    <input class="form-check-input" type="radio" name="arh" id="arh-stari" value="stari" ngModel>
+                    <label class="form-check-label" for="arh-stari">
+                      Stari student
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    &nbsp;&nbsp;
+                    <input class="form-check-input" type="radio" name="arh" id="arh-ned" value="nedostupan" ngModel>
+                    <label class="form-check-label" for="arh-ned">
+                    Nedostupan
+                    </label>
+                  </div>
+                  &nbsp;<input type="submit" class="btn btn-outline-dark" value="Potvrdi" />
+                </div>
+
+      </form>
+      </div>
+  </ng-template>

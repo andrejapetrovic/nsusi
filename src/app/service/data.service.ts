@@ -11,10 +11,13 @@ import { SearchService } from './search.service';
 })
 export class DataService {
 
+  user = {username: "", admin: false};
+
   students: StudentRow[] = [];
   archive: StudentRow[] = [];
   initialized: boolean = false;
-
+  users = [];
+  
   mesta: string[] = [];
   pozBrFiksni: string[] = [];
   jezici: string[] = []; 

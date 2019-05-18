@@ -11,7 +11,8 @@ export class FilterTablePipe implements PipeTransform {
     godStud: number, godUcl: string, dijagnoza: string, dodatnaPodrska: string, jezici: string, racVest: string,
     studOrgs: string, mestoRodj: string, mestoStan: string, ulica: string, prisSkup: string, drugeVes: string, ispit: string,
     radVesDa: boolean, radVesNe: boolean, aktivanDa: boolean, aktivanNe: boolean, pprojDa: boolean, pprojNe: boolean,
-    suspDa: boolean, suspNe: boolean, clnDa: boolean, clnNe: boolean): StudentRow[] {
+    suspDa: boolean, suspNe: boolean, clnDa: boolean, clnNe: boolean,
+    volonter: boolean, sInv: boolean, tOst: boolean, hrB: boolean, drugo: boolean): StudentRow[] {
     if (!students) {
       return [];
     } 
@@ -48,6 +49,15 @@ export class FilterTablePipe implements PipeTransform {
     ret = this.checkBoxFilter(ret, 'pisanjeProj', [pprojDa, pprojNe]);
     ret = this.checkBoxFilter(ret, 'clanarina', [clnDa, clnNe]);
     ret = this.checkBoxFilter(ret, 'susp', [suspDa, suspNe]);
+    
+
+    if (volonter) ret = ret.filter( stud => stud['tip'] === 'Volonter');
+    if (sInv) ret = ret.filter( stud => stud['tip'] === 'Sa invaliditetom');
+
+    if (tOst) ret = ret.filter( stud => stud['tipInv'] === 'Telesno oštećenje');
+    if (hrB) ret = ret.filter( stud => stud['tipInv'] === 'Hronična bolest');
+    if (drugo) ret = ret.filter( stud => stud['tipInv'] === 'Drugo');
+
     return ret;
   }
 

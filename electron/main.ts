@@ -3,6 +3,8 @@ import * as path from "path";
 import * as url from "url";
 import { ipcMain } from "electron";
 import { StudentService } from '../src/assets/services/student-service';
+import { UserService } from '../src/assets/services/user-service';
+import { FeeService } from '../src/assets/services/fee-service';
 
 let win: BrowserWindow;
 const { globalShortcut } = require('electron')
@@ -46,17 +48,18 @@ function createWindow() {
   ipcMain.on('connectToDb', (event, arg) => {
     client.connect( err => {
         if (err) {
-          event.sender.send('connectionStatus', "Problemi prilikom konekcije na server baze")
+          event.sender.send('connectionStatus', 
+            {connected: false, msg:"Problemi prilikom konekcije na server baze"});
           throw err; 
         }
 
-        event.sender.send('connectionStatus', "Uspešno konektovan na server baze")
+        event.sender.send('connectionStatus', {connected: true})
         console.log("Connected to database server");
         
         const db = client.db('nsusi');
-       
+        new UserService(db, ipcMain);
         new StudentService(db, ipcMain);
-  
+        new FeeService(db, ipcMain);
     }); 
   })
 

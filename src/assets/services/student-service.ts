@@ -53,23 +53,6 @@ export class StudentService {
                 event.sender.send('confirmUpdate', {});
               });
         })
-
-/*        var bcrypt = require('bcryptjs');
-
-        bcrypt.genSalt(10, function(err, salt) {
-            bcrypt.hash("test", salt, function(err, hash) {
-                // Store hash in your password DB.
-                console.log(hash);
-                bcrypt.compare("test", hash, function(err, res) {
-                    // res === true
-                    console.log(res);
-                });
-                bcrypt.compare("not_bacon", hash, function(err, res) {
-                    console.log(res);
-                });
-
-            });
-        });*/
      
         const encrypt = (text) => {
          let cipher = crypto.createCipheriv(algorithm, key, iv);

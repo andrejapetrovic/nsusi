@@ -70,7 +70,7 @@
             <input class="form-control" type="text" [(ngModel)]="ulica" [ngbTypeahead]="searchService.searchUlice"/>
         </div>
         <div class="col-sm-2">
-          <label>Godine prisustva skupštini</label>
+          <label>God. prisustva skupštini</label>
           <input class="form-control" type="text" [(ngModel)]="prisSkup" [ngbTypeahead]="searchService.searchSkGod"/>
       </div>
       <div class="col-sm-2">
@@ -83,6 +83,36 @@
     </div>
       </div><br>
 
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-check form-check-inline">
+              <label class="form-check-label" for="vl">
+                  Volonter
+              </label>&nbsp;&nbsp;
+              <input class="form-check-input" type="checkbox" id="vl" [(ngModel)]="volonter">
+&nbsp;&nbsp;
+<label class="form-check-label" for="sInv">
+    Student sa invaliditetom
+</label>&nbsp;&nbsp;
+              <input name="radVes" class="form-check-input" type="checkbox" value="" id="sInv" [(ngModel)]="sInv">
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="col-check form-check-inline">
+                <label class="form-check-label" for="to">
+                    Telesno oštećenje
+                  </label>&nbsp;&nbsp;
+                <input class="form-check-input" type="checkbox" id="to" [(ngModel)]="tOst">
+&nbsp;&nbsp;               <label class="form-check-label" for="hrB">
+    Hronična bolest
+  </label>&nbsp;&nbsp;
+                <input class="form-check-input" type="checkbox" id="hrB" [(ngModel)]="hrB">
+ &nbsp;&nbsp;                <label class="form-check-label" for="dr">
+    Drugo
+  </label>&nbsp;&nbsp;
+                <input class="form-check-input" type="checkbox" id="dr" [(ngModel)]="drugo">
+&nbsp;&nbsp;
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+      </div><br>
       <div class="row">
         <div class="col-sm-12">
           <div class="form-check form-check-inline">
@@ -195,7 +225,8 @@
   <tbody>
   <tr *ngFor="let stud of dataService.students | filterTable: ime: prz: fakultet: smer: godUpis: godStud:
    godUcl: dijagnoza: dodatnaPodrska: jezici: racVest: studOrgs: mestoRodj: mestoStan: ulica: prisSkup: drugeVes: ispit:
-   radVesDa: radVesNe: pprojDa: pprojNe: aktivanDa: aktivanNe: suspDa: suspNe: clnDa: clnNe; index as i">
+   radVesDa: radVesNe: pprojDa: pprojNe: aktivanDa: aktivanNe: suspDa: suspNe: clnDa: clnNe:
+   volonter: sInv: tOst: hrB: drugo; index as i">
     <div *ngIf="stud.editable; then editRow else basicRow"></div>
     <ng-template #basicRow>
       <td class="btn-td">
@@ -272,10 +303,7 @@
       <td (dblclick)="stud.editable = true">{{ stud.ispit }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.prisSkup }}</td>
       <td class="btn-td">
-          <button class="btn btn-danger btn-sm" (click)="archive(stud)">arhiviraj</button>
-      </td>
-      <td class="btn-td">
-          <button class="btn btn-danger btn-sm" (click)="archive(stud)">arhiviraj</button>
+          <button class="btn btn-danger btn-sm" (click)="openArhModal(contentArh, stud)">arhiviraj</button>
         </td>
 
     </ng-template>
@@ -362,7 +390,7 @@
       <td><input type="text" class="form-control " [(ngModel)]="stud.ispit" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.prisSkup" (keyup.enter)="editStudentRow(i)"/></td>
       <td class="btn-td">
-          <button class="btn btn-danger btn-sm" (click)="archive(stud)">arhiviraj</button>
+          <button class="btn btn-danger btn-sm" (click)="openArhModal(contentArh, stud)">arhiviraj</button>
       </td>
     </ng-template>
   </tr>
@@ -417,4 +445,36 @@
         </form>
         </div>
     </ng-template>
+
+    <ng-template #contentArh arch-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Arhiviraj studenta kao</h4>
+          <span class="close rucica" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </span>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="arhiviraj(modalArhForm)" #modalArhForm="ngForm">
+           
+                <div class="row">
+                    <div class="form-check">
+                        &nbsp;&nbsp;
+                        <input class="form-check-input" type="radio" name="arh" id="arh-stari" value="stari" ngModel>
+                        <label class="form-check-label" for="arh-stari">
+                          Stari student
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        &nbsp;&nbsp;
+                        <input class="form-check-input" type="radio" name="arh" id="arh-ned" value="nedostupan" ngModel>
+                        <label class="form-check-label" for="arh-ned">
+                        Nedostupan
+                        </label>
+                      </div>
+                      &nbsp;<input type="submit" class="btn btn-outline-dark" value="Potvrdi" />
+                    </div>
+
+          </form>
+          </div>
+      </ng-template>
 

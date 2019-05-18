@@ -6,6 +6,8 @@ import { StudentRow } from '../view-models/student-row';
 import { ITab } from '../view-models/ITab';
 import { TabsComponent } from '../tabs/tabs.component';
 import { SearchService } from '../service/search.service';
+import { NgForm } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-student',
@@ -20,7 +22,7 @@ export class StudentComponent implements OnInit {
   help; 
 
   constructor(private dataService: DataService, private route: ActivatedRoute,  @Host() private parent: TabsComponent,
-    public searchService: SearchService) { }
+    public searchService: SearchService, private modalService: NgbModal) { }
 
   ngOnInit() {
 
@@ -111,12 +113,22 @@ openSuspensions() {
   this.parent.createUniqueTab(tab);
 }
 
-archive() {
+private arhStud: StudentRow ;
+  
+openArhModal(content) {
+  this.modalService.open(content, { centered: true });
+}
+
+arhiviraj(f: NgForm) {
+  let row = this.studentRow;
   this.dataService.students = this.dataService.students
-    .filter( s => s._id !== this.studentRow._id);
-  this.dataService.archive.push(this.studentRow);
-  console.log(this.dataService.students);
-  this.studentRow.arhiviraj();
+    .filter( s => s._id !== row._id);
+  
+    row.arhiviraj(f.value);
+    this.dataService.updateStudent(row.getModel());
+    f.resetForm;
+    this.modalService.dismissAll();
+    this.dataService.archive.push(row);
 }
 
 vrati(){
@@ -126,6 +138,5 @@ vrati(){
 
   this.studentRow.vratiIzArhive();
   }
-
 
 }

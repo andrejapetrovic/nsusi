@@ -16,7 +16,6 @@ export class Student {
     pisanjeProj: boolean;
     radVes: boolean;
     drugeVes: string[];
-    nedostupan: boolean;
     brLicne: string;
     ulica: string;
     dijagnoza: string;
@@ -33,7 +32,8 @@ export class Student {
     suspenzije: Suspenzija[];
     studInfo: StudInfo;
     clanarine: Clanarina[];
-    arhiviran: boolean = false;
+    nedostupan: boolean;
+    stari: boolean = false;
     public constructor(init?:Partial<Student>) {
         Object.assign(this, init);
     }

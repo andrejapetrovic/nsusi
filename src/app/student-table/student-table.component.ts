@@ -113,19 +113,29 @@ export class StudentTableComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
 
+  private arhStud: StudentRow ;
+  
+  openArhModal(content, studRow: StudentRow) {
+    this.arhStud = studRow;
+    this.modalService.open(content, { centered: true });
+  }
+
   saveSusp(form: NgForm) {
     this.suspStud.dodajSuspenziju(form.value);
     form.resetForm();
     this.modalService.dismissAll();
   }
 
-  archive(stRow: StudentRow) {
+  arhiviraj(f: NgForm) {
+    let row = this.dataService.students.find( stud => stud._id === this.arhStud._id);
     this.dataService.students = this.dataService.students
-      .filter( s => s._id !== stRow._id);
-    this.dataService.archive.push(stRow);
-    console.log(this.dataService.students);
-    stRow.arhiviraj();
-    this.dataService.updateStudent(stRow.getModel());
+      .filter( s => s._id !== row._id);
+    
+      row.arhiviraj(f.value);
+      this.dataService.updateStudent(row.getModel());
+      f.resetForm;
+      this.modalService.dismissAll();
+      this.dataService.archive.push(row);
   }
 
   openEdit(stRow: StudentRow) {
@@ -168,4 +178,5 @@ mestoRodj; mestoStan; prisSkup; drugeVes;  ispit; ulica;
 radVesDa; radVesNe; aktivanDa; aktivanNe;
 pprojDa; pprojNe; suspDa; suspNe;
 clnDa; clnNe;
+volonter;sInv;tOst;hrB;drugo;
 }

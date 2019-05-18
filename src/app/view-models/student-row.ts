@@ -23,6 +23,7 @@ export class StudentRow {
     pisanjeProj: boolean;
     radVes: boolean;
     nedostupan: boolean;
+    stari: boolean;
     susp: boolean;
     suspDat: string;
     suspRazlog: string;
@@ -163,6 +164,7 @@ export class StudentRow {
         this.student.studInfo.godUpis = this.godUpis;
         this.student.datUcl = this.str2Date(this.datUcl);
         this.student.godUcl = this.godUcl;
+        this.student.stari = this.stari;
         return this.student;
     }
 
@@ -220,12 +222,23 @@ export class StudentRow {
         return this.student;
     }
 
-    public arhiviraj() {
-        this.student.arhiviran = true;
+    public arhiviraj(val: any) {
+        let stari; 
+        val.arh === 'stari' ? stari = true : stari = false;
+        if (stari) {
+            this.student.stari = true;
+            this.stari = true;
+        } else {
+            this.student.nedostupan = true;
+            this.nedostupan = true;
+        }
     }
 
     public vratiIzArhive() {
-        this.student.arhiviran = false;
+        this.student.nedostupan = false;
+        this.student.stari = false;
+        this.nedostupan = false;
+        this.stari = false
     }
 
     public setClanarineZaGod(god: string) {

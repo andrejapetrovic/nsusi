@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { ITab } from '../view-models/ITab';
+import { DataService } from '../service/data.service';
+import { RouterLink, Router } from '@angular/router';
 
 
 @Component({
@@ -16,12 +18,14 @@ export class TabsComponent implements OnInit {
   @ViewChild('tabs')
   tabset: NgbTabset;
 
-  constructor() {
-
+  constructor(private dataService: DataService, private router: Router) {
+    
   }
 
   ngOnInit() {
+    
   }
+
   
   closeTab(tab: ITab, $event) {
     $event.preventDefault();

@@ -1,1 +1,46 @@
+<div class="container">
+    <div class="vertical-center">
 
+        <div id="connection-status" class="">
+        <span>
+            Uspostavljanje konekcije na server baze 
+         </span> &nbsp;
+             <div class="spinner-border mid" style="color: #3478F7"></div>
+             {{statusMsg}}
+        </div>
+
+        <div id="data-init" class="d-none">
+                <span>
+                    Inicijalizacija podataka
+                 </span> &nbsp;
+                     <div class="spinner-border mid" style="color: #3478F7"></div>
+                     {{statusMsg}}
+        </div>
+
+        
+<div class="card" id="login-form" class="d-none">
+        <article class="card-body">
+        <h4 class="card-title mb-4 mt-1">Login</h4>
+        <form (ngSubmit)="login(loginForm)" #loginForm="ngForm" >
+            <div class="form-group">
+                <label>Username</label>
+                <input name="username" class="form-control" type="text" ngModel [disabled]="disabledInput">
+            </div> <!-- form-group// -->
+            <div class="form-group">
+                <label>Password</label>
+                <input name="password" class="form-control" type="password" ngModel [disabled]="disabledInput">
+            </div> <!-- form-group// --> 
+            <div class="form-group"> 
+            <div class="checkbox">
+              <label> <input type="checkbox" [disabled]="disabledInput">&nbsp; Remember me</label>
+            </div> <!-- checkbox .// -->
+            </div> <!-- form-group// -->  
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" [disabled]="disabledInput"> Login  </button>
+            </div> <!-- form-group// --> <span style="color:red">&nbsp;{{failedLogin}}</span>                                                  
+        </form>
+        </article>
+    </div> <!-- card.// -->
+   
+    </div>  
+</div>

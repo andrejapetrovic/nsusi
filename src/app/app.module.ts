@@ -19,6 +19,7 @@ import { DatePipe } from './pipes/date.pipe';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AnnualFeesComponent } from './annual-fees/annual-fees.component';
 import { SearchPipe } from './pipes/search.pipe';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SearchPipe } from './pipes/search.pipe';
     SuspensionsComponent,
     DatePipe,
     AnnualFeesComponent,
-    SearchPipe
+    SearchPipe,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
