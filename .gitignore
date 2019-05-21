@@ -3,6 +3,7 @@
 # compiled output
 /dist
 electron/dist
+/inf-system-win32-x64
 /tmp
 /out-tsc
 # Only exists if Bazel was run

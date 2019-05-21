@@ -26,14 +26,7 @@
     </table>
     <br>
     <button (click)="openSuspModal(contentDodaj)">Suspenduj</button>
-      <!--<form class="form-inline" (ngSubmit)="dodajCln(clnForm)" #clnForm="ngForm">
-        <label for="god" class="mr-sm-2">Godina</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="god" name="god" ngModel>
-        <label for="iznos" class="mr-sm-2">Iznos</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="iznos" name="iznos" ngModel>
-        <button type="submit" class="btn btn-success mb-2">Dodaj novu članarinu</button>
-      </form>
-    -->
+    <br><ngb-alert *ngIf="err" (close)="close()">{{ err }}</ngb-alert>
     </div>
     
     <ng-template #content let-modal>
@@ -54,6 +47,7 @@
                 <input type="text" id="god" class="form-control" ngModel name="godPrestanka">&nbsp;
                 <input type="submit" class="btn btn-outline-dark" value="Potvrdi" />
               </div>
+              <br><ngb-alert *ngIf="err" (close)="close()">{{ err }}</ngb-alert>
             </div>
           </form>
           </div>
@@ -82,6 +76,7 @@
                   <input type="text" id="god" class="form-control" ngModel name="godSusp">&nbsp;
                   <input type="submit" class="btn btn-outline-dark" value="Potvrdi suspenziju" />
                 </div>
+                <br><ngb-alert *ngIf="err" (close)="close()">{{ err }}</ngb-alert>
               </div>
             </form>
             </div>

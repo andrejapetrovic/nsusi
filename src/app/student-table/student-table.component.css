@@ -56,22 +56,13 @@ th[sortable].desc:before, th[sortable].asc:before {
   width: 22px;
   height: 22px;
   float: right;
-  margin-left: -22px;
+  margin-left: -11px;
+  margin-top: -11px;
 }
 
 th[sortable].desc:before {
   transform: rotate(180deg);
   -ms-transform: rotate(180deg);
-}
-
-/* Filtering table demo */
-ngbd-table-filtering span.ngb-highlight {
-  background-color: yellow;
-}
-
-/* Complete table demo */
-ngbd-table-complete span.ngb-highlight {
-  background-color: yellow;
 }
 
 .label {

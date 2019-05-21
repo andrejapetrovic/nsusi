@@ -4,6 +4,7 @@ import { SearchService } from '../service/search.service';
 import { NgForm } from '@angular/forms';
 import { Student } from 'src/assets/models/student';
 import { StudentRow } from '../view-models/student-row';
+import { ValidationService } from '../service/validation.service';
 
 
 @Component({
@@ -13,10 +14,12 @@ import { StudentRow } from '../view-models/student-row';
 })
 export class FormComponent implements OnInit {
 
-  constructor(public searchService: SearchService, public dataService: DataService) { }
+  err;
+  success;
+
+  constructor(public searchService: SearchService, public dataService: DataService, private validate: ValidationService) { }
 
   ngOnInit() {    
-  
   }
 
   toggleOptions(event, elementId) {
@@ -30,6 +33,8 @@ export class FormComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    this.err = "";
+    this.success ="";
     let val = form.value;
 
     val.jez ? val.jezici = this.str2Arr(val.jezici) : val.jezici = []; 
@@ -38,8 +43,7 @@ export class FormComponent implements OnInit {
     delete val.drVest;
     val.mob = val.pozBrMob + " " + val.mob;
     val.tel = val.pozBrFik + " " + val.tel;
-    delete val.pozBrMob;
-    delete val.pozBrFik;
+
     if(val.racunarskeVestine) {
       val.racVest = this.str2Arr(val.racVest);
       if (val.word) {
@@ -78,16 +82,63 @@ export class FormComponent implements OnInit {
     //val.nedostupan = false;
     val.prisSkup = [];
     let student = new Student(val);
+
+    let row = new StudentRow(student);
+
+    let validate = this.validate.validForm(row);
+
+    if (!validate.valid) {
+      this.err = validate.status;
+      return;
+    }
+    if(!val.pozBrMob) {
+      this.err = "polje pozivni broj ne sme biti prazno";
+      return;
+    }
+    delete val.pozBrMob;
+    delete val.pozBrFik;
+
+    let datValidation = this.validate.validateDate(row.dat);
+    let datUclValidation = this.validate.validateDate(row.datUcl);
+    
+    if(!datValidation.valid) {
+      this.err = datValidation.msg;
+      return;
+    }
+   
+    if(!datUclValidation.valid) {
+      this.err = datUclValidation.msg;
+      return;
+    }
+
+    let godUpisValidation = this.validate.validateSkGod(row.godUpis);
+    let godUclValidation = this.validate.validateSkGod(row.godUcl);
+
+    if(!godUclValidation.valid) {
+      this.err = godUclValidation.msg;
+      return;
+    }
+   
+    if(!godUpisValidation.valid) {
+      this.err = godUpisValidation.msg;
+      return;
+    }
+
+
     student.clanarine = [];
-    let clanarina = this.dataService.clanarine.filter( cln => cln.god === this.dataService.godClanarine) ;
-    student.clanarine.push(clanarina[0]);
-    val.arhiviran = false;
-    console.log(student);
+    if (this.dataService.clanarine.length > 0) {
+      let clanarina = this.dataService.clanarine[this.dataService.clanarine.length - 1];
+      student.clanarine.push(clanarina);
+    }
+    val.stari = false;
+    val.nedostupan = false;
+
     this.dataService.addStudent(student);
+    this.success = "Student uspešno dodat";
   }
 
   public str2Arr(arrStr: string): any[] {
-    console.log(arrStr);
+
     if (!arrStr) return [];
     arrStr = arrStr.replace(/\s/g, '');
     return arrStr.includes(',') ? arrStr.split(',') : [arrStr];
@@ -95,6 +146,18 @@ export class FormComponent implements OnInit {
 
 public str2Date(dateStr: string): Date {
   let d = dateStr.split('. ');
-  return new Date(parseInt(d[2]), parseInt(d[1]), parseInt(d[0]));
+  return new Date(parseInt(d[2]), parseInt(d[1])-1, parseInt(d[0]));
 }
+
+clearForm(form: NgForm) {
+  this.err = "";
+  this.success ="";
+  form.resetForm();
+}
+
+close() {
+  this.err = "";
+  this.success = "";
+}
+
 }

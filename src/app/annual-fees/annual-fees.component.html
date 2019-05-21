@@ -5,7 +5,7 @@
         <th scope="col">Iznos</th>
       </thead>
       <tbody>
-        <tr *ngFor="let cln of clanarine">
+        <tr *ngFor="let cln of dataService.clanarine">
           <td>{{cln.god}}</td>
           <td>{{cln.iznos}}</td>
         </tr>
@@ -14,10 +14,11 @@
     <br>
       <form class="form-inline" (ngSubmit)="dodajCln(clnForm)" #clnForm="ngForm">
         <label for="god" class="mr-sm-2">Godina</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="god" name="god" ngModel>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="god" name="god" ngModel [disabled]="disabledInput">
         <label for="iznos" class="mr-sm-2">Iznos</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="iznos" name="iznos" ngModel>
-        <button type="submit" class="btn btn-success mb-2">Dodaj novu članarinu</button>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="iznos" name="iznos" ngModel [disabled]="disabledInput">
+        <button type="submit" class="btn btn-success mb-2" [disabled]="disabledInput">Dodaj novu članarinu</button>
+        <ngb-alert *ngIf="err" (close)="close()">{{ err }}</ngb-alert>
       </form>
     
     </div>

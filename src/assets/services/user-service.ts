@@ -12,9 +12,9 @@ export class UserService {
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(arg.password, salt, (err, hash) => {
                     arg.password = hash;
-                    users.insert(arg,  (error, response) => {  
-                        if (error) event.sender.send('newUser', false);       
-                        event.sender.send('newUser', true);
+                    users.insertOne(arg,  (error, response) => {  
+                        if (error) event.sender.send('newUser', {added: false});       
+                        event.sender.send('newUser', {added: true, user: response.ops[0]});
                       });
                 });
             });
@@ -57,6 +57,22 @@ export class UserService {
                 });
             });
         })
+
+        ipcMain.on('getUsers', (event, arg) => {
+            users.find({}).toArray( (error, docs) => {
+                if (error) throw error     
+                event.sender.send('sendUsers', docs);
+              });          
+        })
+
+        ipcMain.on('deleteUser', (event, arg) => {
+
+            users.deleteOne({ username: arg }, function(err, res) {
+              if (err) throw err;
+              event.sender.send('deleted', arg);
+            });       
+        })
+
 
     }
 

@@ -24,7 +24,7 @@
         <form (ngSubmit)="login(loginForm)" #loginForm="ngForm" >
             <div class="form-group">
                 <label>Username</label>
-                <input name="username" class="form-control" type="text" ngModel [disabled]="disabledInput">
+                <input name="username" class="form-control" type="text" [(ngModel)]="user.username" [disabled]="disabledInput">
             </div> <!-- form-group// -->
             <div class="form-group">
                 <label>Password</label>
@@ -32,7 +32,7 @@
             </div> <!-- form-group// --> 
             <div class="form-group"> 
             <div class="checkbox">
-              <label> <input type="checkbox" [disabled]="disabledInput">&nbsp; Remember me</label>
+              <label> <input type="checkbox" [disabled]="disabledInput" name="remember" [(ngModel)]="user.remember">&nbsp; Remember me</label>
             </div> <!-- checkbox .// -->
             </div> <!-- form-group// -->  
             <div class="form-group">

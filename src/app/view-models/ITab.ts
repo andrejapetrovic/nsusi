@@ -1,3 +1,5 @@
+import { Student } from 'src/assets/models/student';
+
 export interface ITab {
   id: string;
   type: string

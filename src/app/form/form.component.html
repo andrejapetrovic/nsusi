@@ -1,16 +1,16 @@
 <div class="col-lg-12">
-  <form (ngSubmit)="onSubmit(studentForm)" #studentForm="ngForm"><br>
+  <form #studentForm="ngForm"><br>
     <div class="row">
         <div class="form-check">
             &nbsp;&nbsp;
-            <input class="form-check-input" type="radio" name="tip" id="exampleRadios1" value="Sa invaliditetom" ngModel>
-            <label class="form-check-label" for="exampleRadios1">
+            <input class="form-check-input" type="radio" name="tip" id="formSaInv" value="Sa invaliditetom" ngModel>
+            <label class="form-check-label" for="formSaInv">
               Student sa invaliditetom
             </label>
           </div>
           <div class="form-check">
-            &nbsp;&nbsp;<input class="form-check-input" type="radio" name="tip" id="exampleRadios2" value="Volonter" ngModel>
-            <label class="form-check-label" for="exampleRadios2">
+            &nbsp;&nbsp;<input class="form-check-input" type="radio" name="tip" id="formVol" value="Volonter" ngModel>
+            <label class="form-check-label" for="formVol">
             Volonter
             </label>
           </div>
@@ -147,7 +147,7 @@
             </div>
       </div>     
       <div class="col-sm-10 d-none" id="znJez">
-        <input name="jezici" ngModel type="text" id="jez" class="form-control" placeholder="polje za unos jezika, odvojiti zarezom, npr engleski, francuski, španski" [ngbTypeahead]="searchService.searchJezici">
+        <input name="jezici" ngModel type="text" id="jez" class="form-control" placeholder="polje za unos jezika, odvojiti jezike zarezom" [ngbTypeahead]="searchService.searchJezici">
       </div>    
   </div><br>
   <div class="row">
@@ -216,6 +216,9 @@
           </div>
   </div>
     </div><br>
-    <button type="submit">Dodaj studenta</button>
+    <button type="button" (click)="onSubmit(studentForm)">Dodaj studenta</button>
+    <button type="button" (click)="clearForm(studentForm)" class="float-right">Reset</button>
+    <ngb-alert *ngIf="err" (close)="close()">{{ err }}</ngb-alert>
+    <ngb-alert type="success" *ngIf="success" (close)="close()">{{ success }}</ngb-alert>
   </form><br><br>
 </div>

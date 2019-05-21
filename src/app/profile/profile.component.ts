@@ -13,25 +13,39 @@ export class ProfileComponent implements OnInit {
   isCollapsed = false;
   disabledInput = false;
   errMsg = "";
+  successMsg = "";
   user;
-  users = [];
+  
   constructor(private dataService: DataService, private electronService: ElectronService,
   private zone: NgZone) { }
 
 
   ngOnInit() {
     this.user = this.dataService.user;
-    if (this.user.admin)
-      this.users = this.dataService.users;
-    this.electronService.ipcRenderer.on('passwordUpdate', (event, arg) => {
-      console.log(arg);
+    this.electronService.ipcRenderer.on('passwordUpdate', (error, arg) => {
+      this.zone.run( () => {
+        this.disabledInput = false;
+        if(!arg.updated) {
+          this.successMsg = "";
+          this.errMsg = "Netačan unos trenutne lozinke, neuspela promena ";
+        } else {
+          this.errMsg = "";
+          this.successMsg = "Uspešno promenjena lozinka";
+        }
+        setInterval( () => {
+          this.successMsg ="";
+          this.errMsg = "";
+          }, 10000);
+      })
     })
   }
 
   passChange(form: NgForm) {
     let user = Object.assign({}, this.dataService.user);
-    let arg = {user: user, pass: form.value};
-    this.electronService.ipcRenderer.send('changePassword', arg)
+    let arg = {user: user, pass: form.value}
+ 
+    this.electronService.ipcRenderer.send('changePassword', arg);
+    this.disabledInput = true;
   }
 
 }

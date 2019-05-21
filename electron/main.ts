@@ -1,13 +1,11 @@
-import { app, BrowserWindow } from "electron";
-import * as path from "path";
-import * as url from "url";
-import { ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain } from 'electron'
+import * as path from 'path'
+import * as url from 'url'
 import { StudentService } from '../src/assets/services/student-service';
 import { UserService } from '../src/assets/services/user-service';
 import { FeeService } from '../src/assets/services/fee-service';
 
 let win: BrowserWindow;
-const { globalShortcut } = require('electron')
 
 app.on("ready", createWindow);
 
@@ -20,7 +18,7 @@ app.on("activate", async () => {
 
 function createWindow() {
 
-  win = new BrowserWindow({ width: 1600, height: 700 });
+  win = new BrowserWindow({ width: 1600, height: 700,  webPreferences: { nodeIntegration: true }});
   win.maximize();
   win.loadURL(
     url.format({
@@ -30,13 +28,22 @@ function createWindow() {
     })
   );
 
-  win.webContents.openDevTools();
+//  win.webContents.openDevTools();
 
   win.on("closed", () => {
+    win.removeAllListeners('close');
     win = null;
   });
-
+  
 }
+
+  app.on('window-all-closed', function() {
+    // On OS X it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+  })
 
   const fs = require('fs');
   let raw_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/database-url.txt'));
@@ -52,8 +59,13 @@ function createWindow() {
             {connected: false, msg:"Problemi prilikom konekcije na server baze"});
           throw err; 
         }
+        let raw_user_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/user.json'));
+        let user_config = JSON.parse(raw_user_data);
 
-        event.sender.send('connectionStatus', {connected: true})
+        let raw_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/god.txt'));
+        let god = raw_data.toString('ascii', 0, raw_data.length); 
+
+        event.sender.send('connectionStatus', {connected: true, user: user_config, god: god})
         console.log("Connected to database server");
         
         const db = client.db('nsusi');
@@ -61,5 +73,16 @@ function createWindow() {
         new StudentService(db, ipcMain);
         new FeeService(db, ipcMain);
     }); 
+  })
+
+  ipcMain.on('saveConfig', (event, arg) => {
+    var json = JSON.stringify(arg);
+    fs.writeFile(path.join(__dirname, '../../../src/assets/config/user.json'), json, err => { if (err) throw err} );
+  })
+
+  ipcMain.on('saveGod', (event, arg) => {
+    fs.writeFile(path.join(__dirname, '../../../src/assets/config/god.txt'), arg, err => {
+      if (err) throw err;
+    });
   })
 

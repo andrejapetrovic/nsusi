@@ -48,8 +48,9 @@ export class StudentRow {
     editable: boolean;
     suspenzije: SuspenzijaRow[]; 
     godUcl: string;
+    clnPostoji: boolean;
 
-    public constructor(private student: Student) {
+    public constructor(public student: Student) {
         this._id = student._id;
         this.ime = student.ime;
         this.prz = student.prz;
@@ -91,7 +92,7 @@ export class StudentRow {
 
     private parseDate(date: Date): string {
         if (!date) return "";
-        return date.getDay() + '. ' + date.getMonth() + '. ' + date.getFullYear();
+        return date.getDate() + '. ' + (date.getMonth()+1) + '. ' + date.getFullYear();
     }
 
     private isSuspended(suspenzije: Suspenzija[]) {
@@ -208,11 +209,10 @@ export class StudentRow {
 
     private str2Date(dateStr: string): Date {
         let d = dateStr.split('. ');          
-        return new Date(parseInt(d[2]), parseInt(d[1]), parseInt(d[0]));
+        return new Date(parseInt(d[2]), parseInt(d[1])-1, parseInt(d[0]));
     }
 
     private str2Arr(arrStr: string): any[] {
-        console.log(arrStr);
         if (!arrStr) return [];
         arrStr = arrStr.replace(/\s/g, '');
         return arrStr.includes(',') ? arrStr.split(',') : [arrStr];
@@ -242,10 +242,18 @@ export class StudentRow {
     }
 
     public setClanarineZaGod(god: string) {
-        this.student.clanarine.forEach( cln => {
+
+        let gods = this.student.clanarine.map(x => x.god);
+        if (gods.includes(god)) {
+            this.clnPostoji = true;
+        } else {
+            this.clnPostoji = false;
+        }
+
+        this.student.clanarine.forEach( cln => {  
             if (cln.god === god) {
                 this.clanarina = cln.placena;
-            }
+            } 
         })
     }
 } 

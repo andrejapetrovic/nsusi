@@ -17,15 +17,15 @@
     <div class="row">
         <div class="form-check">
             &nbsp;&nbsp;
-            <input class="form-check-input" type="radio" name="tip" id="tip1" (change)="change('tip', 'Sa invaliditetom')" [checked]="student.tip == 'Sa invaliditetom'">
-            <label class="form-check-label" for="tip1">
+            <input class="form-check-input" type="radio" name="tip" id="tip1+{{student.tip}}" (change)="change('tip', 'Sa invaliditetom')" [checked]="student.tip == 'Sa invaliditetom'">
+            <label class="form-check-label" for="tip1+{{student.tip}}">
               Student sa invaliditetom
             </label>
           </div>
           <div class="form-check">
             &nbsp;&nbsp;
-            <input class="form-check-input" type="radio" name="tip" id="tip2" (change)="change('tip', 'Volonter')" [checked]="student.tip == 'Volonter'">
-            <label class="form-check-label" for="tip2">
+            <input class="form-check-input" type="radio" name="tip" id="tip2+{{student.tip}}" (change)="change('tip', 'Volonter')" [checked]="student.tip == 'Volonter'">
+            <label class="form-check-label" for="tip2+{{student.tip}}">
             Volonter
             </label>
           </div>
@@ -33,20 +33,20 @@
     <div class="row">
     <div class="form-check">
         &nbsp;&nbsp;
-        <input class="form-check-input" type="radio" name="tipInv" id="exampleRadios3" (change)="change('tipInv', 'Sa invaliditetom')" value="Hronična Bolest" [checked]="student.tipInv == 'Hronična bolest'">
-        <label class="form-check-label" for="exampleRadios3">
+        <input class="form-check-input" type="radio" name="tipInv" id="exampleRadios3+{{student.tipInv}}" (change)="change('tipInv', 'Sa invaliditetom')" value="Hronična Bolest" [checked]="student.tipInv == 'Hronična bolest'">
+        <label class="form-check-label" for="exampleRadios3+{{student.tipInv}}">
           Hronična bolest
         </label>
       </div>
       <div class="form-check">
-        &nbsp;&nbsp;<input class="form-check-input" type="radio" name="tipInv" id="exampleRadios4" (change)="change('tipInv', 'Telesno oštećenje')" value="Telesno Oštecenje" [checked]="student.tipInv == 'Telesno oštećenje'">
-        <label class="form-check-label" for="exampleRadios4">
+        &nbsp;&nbsp;<input class="form-check-input" type="radio" name="tipInv" id="exampleRadios4+{{student.tipInv}}" (change)="change('tipInv', 'Telesno oštećenje')" value="Telesno Oštecenje" [checked]="student.tipInv == 'Telesno oštećenje'">
+        <label class="form-check-label" for="exampleRadios4+{{student.tipInv}}">
           Telesno oštećenje
         </label>
       </div>
         <div class="form-check">
-            &nbsp;&nbsp;<input class="form-check-input" type="radio" name="tipInv" id="exampleRadios5" (change)="change('tipInv', 'Drugo')" value="Drugo" [checked]="student.tipInv == 'Drugo'">
-            <label class="form-check-label" for="exampleRadios5">
+            &nbsp;&nbsp;<input class="form-check-input" type="radio" name="tipInv" id="exampleRadios5+{{student.tipInv}}" (change)="change('tipInv', 'Drugo')" value="Drugo" [checked]="student.tipInv == 'Drugo'">
+            <label class="form-check-label" for="exampleRadios5+{{student.tipInv}}">
               Drugo
             </label>
       </div>
@@ -107,7 +107,7 @@
       </div>
       <div class="col-sm-2">
           <label for="god-upis">Godina upisa</label>
-          <input name="godUpis" [(ngModel)]="student.godUpis" type="text" id="god-upis" class="form-control" placeholder="npr. 2014/15" [ngbTypeahead]="searchService.searchSkGod">
+          <input name="godUpis" [(ngModel)]="student.studInfo.godUpis" type="text" id="god-upis" class="form-control" placeholder="npr. 2014/15" [ngbTypeahead]="searchService.searchSkGod">
       </div>
       <div class="col-sm-2">
           <label for="god-stud">Godina studija</label>
@@ -147,7 +147,7 @@
       </div>
       <div class="col-sm-4">
           <label for="ps">Godine prisustva skupštini</label>
-          <input name="ps" [(ngModel)]="help.prisSkup" type="text" id="ps" class="form-control" [ngbTypeahead]="searchService.searchSkGod">
+          <input name="ps" [(ngModel)]="help.prisSkup" type="text" id="ps" class="form-control" [ngbTypeahead]="searchService.searchSkGodMulti">
       </div>
   </div><br>
   <div class="row">
@@ -163,20 +163,20 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="form-check form-check-inline">
-            <input name="radVes" [(ngModel)]="student.radVest" class="form-check-input" type="checkbox" value="" id="rv">
-            <label class="form-check-label" for="rv">
+            <input name="radVes" [(ngModel)]="student.radVes" class="form-check-input" type="checkbox" value="" id="rv+{{student.radVes}}">
+            <label class="form-check-label" for="rv+{{student.radVes}}">
               Radioničarske veštine
             </label>
           </div>
           <div class="col-check form-check-inline">
-              <input name="pisanjeProj" [(ngModel)]="student.pisanjeProj" class="form-check-input" type="checkbox" value="" id="pproj">
-              <label class="form-check-label" for="pproj">
+              <input name="pisanjeProj" [(ngModel)]="student.pisanjeProj" class="form-check-input" type="checkbox" value="" id="pproj+{{student.pisanjeProj}}">
+              <label class="form-check-label" for="pproj+{{student.pisanjeProj}}">
                 Pisanje projekata
               </label>
           </div>
           <div class="col-check form-check-inline">
-              <input name="pisanjeProj" [(ngModel)]="student.aktivan" class="form-check-input" type="checkbox" value="" id="aktivan">
-              <label class="form-check-label" for="aktivan">
+              <input name="pisanjeProj" [(ngModel)]="student.aktivan" class="form-check-input" type="checkbox" value="" id="aktivan+{{student.aktivan}}">
+              <label class="form-check-label" for="aktivan+{{student.aktivan}}">
                 Aktivan
               </label>
           </div>
@@ -187,26 +187,26 @@
       <div class="col-sm-6">
         <div class="form-check form-check-inline">
           Računarske veštine: &nbsp; &nbsp;
-            <input name="word" [(ngModel)]="help.word" class="form-check-input" type="checkbox" value="" id="word">
-            <label class="form-check-label" for="word">
+            <input name="word" [(ngModel)]="help.word" class="form-check-input" type="checkbox" value="" id="word+{{help.word}}">
+            <label class="form-check-label" for="word+{{help.word}}">
               Word
             </label>
           </div>
           <div class="col-check form-check-inline">
-              <input name="excel" [(ngModel)]="help.excel" class="form-check-input" type="checkbox" value="" id="excel">
-              <label class="form-check-label" for="excel">
+              <input name="excel" [(ngModel)]="help.excel" class="form-check-input" type="checkbox" value="" id="excel+{{help.excel}}">
+              <label class="form-check-label" for="excel+{{help.excel}}">
                 Excel
               </label>
           </div>
           <div class="col-check form-check-inline">
-              <input name="internet" [(ngModel)]="help.internet" class="form-check-input" type="checkbox" value="" id="internet">
-              <label class="form-check-label" for="internet">
+              <input name="internet" [(ngModel)]="help.internet" class="form-check-input" type="checkbox" value="" id="internet+{{help.internet}}">
+              <label class="form-check-label" for="internet+{{help.internet}}">
                 Internet
               </label>
           </div>
           <div class="col-check form-check-inline">
-              <input name="uopste" [(ngModel)]="help.uopste" class="form-check-input" type="checkbox" value="" id="uopste">
-              <label class="form-check-label" for="uopste">
+              <input name="uopste" [(ngModel)]="help.uopste" class="form-check-input" type="checkbox" value="" id="uopste+{{help.uopste}}">
+              <label class="form-check-label" for="uopste+{{help.uopste}}">
                 Uopšte
               </label>
           </div>
@@ -224,14 +224,16 @@
         </div>
       </div><br>
 
-    <button type="submit">Ažuriraj studenta</button>
+    <button type="submit">Ažuriraj studenta</button>&nbsp;
+    <ngb-alert *ngIf="err" (close)="close()">{{ err }}</ngb-alert>
+    <ngb-alert type="success" *ngIf="success" (close)="close()">{{ success }}</ngb-alert>
   </form><br><br>
 </div>
 
-<ng-template #contentArh arch-modal>
+<ng-template #contentArh let-archmodal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Arhiviraj studenta kao</h4>
-      <span class="close rucica" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span class="close rucica" aria-label="Close" (click)="archmodal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </span>
     </div>
@@ -253,9 +255,10 @@
                     Nedostupan
                     </label>
                   </div>
-                  &nbsp;<input type="submit" class="btn btn-outline-dark" value="Potvrdi" />
+                  &nbsp;<input type="submit" class="btn btn-outline-dark" value="Potvrdi" />&nbsp;
+                  
                 </div>
 
-      </form>
-      </div>
+              </form>
+            </div>
   </ng-template>

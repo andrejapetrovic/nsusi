@@ -1,48 +1,100 @@
+<button type="button" class="btn btn-link" (click)="arhFiltersCollapsed = !arhFiltersCollapsed"
+[attr.aria-expanded]="!arhFiltersCollapsed" aria-controls="arhFilters">
+Filteri
+</button>
+  <br>
+  <div class="col-sm-12" style="background-color: whitesmoke" id="arhFilters" [ngbCollapse]="!arhFiltersCollapsed">
+      <div class="row">
+        <div class="col-sm-2">
+          <label>Ime</label>
+          <input class="form-control" type="text" [(ngModel)]="ime" [ngbTypeahead]="searchService.searchImena"/>
+        </div>
+        <div class="col-sm-2">
+            <label>Prezime</label>
+            <input class="form-control" type="text" [(ngModel)]="prz" [ngbTypeahead]="searchService.searchPrezimena"/>
+        </div>
+        <div class="col-sm-2">
+          <label>Fakultet</label>
+          <input class="form-control" type="text" [(ngModel)]="fakultet" [ngbTypeahead]="searchService.searchFakulteti"/>
+      </div>
+      <div class="col-sm-2">
+        <label>Smer</label>
+        <input class="form-control" type="text" [(ngModel)]="smer" [ngbTypeahead]="searchService.searchSmerovi"/>
+    </div>
+    <div class="col-sm-2">
+      <label>Godina upisa</label>
+      <input class="form-control" type="text" [(ngModel)]="godUpis" [ngbTypeahead]="searchService.searchSkGod"/>
+    </div>
+    <div class="col-sm-2">
+      <label>Godina studija</label>
+      <input class="form-control" type="text" [(ngModel)]="godStud"/>
+    </div>
+  </div><br>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-check form-check-inline">
+              &nbsp;&nbsp;<label class="form-check-label" for="ss">
+                  Stari student
+              </label>&nbsp;&nbsp;
+              <input class="form-check-input" type="checkbox" id="ss" [(ngModel)]="stari">
+              &nbsp;&nbsp;
+              <label class="form-check-label" for="nd">
+              Nedostupan
+              </label>&nbsp;&nbsp;
+              <input name="radVes" class="form-check-input" type="checkbox" value="" id="nd" [(ngModel)]="nedostupan">
+            </div>
+            <button type="button" (click)="reset()" class="float-right">Reset</button>
+            </div>
+            </div><br>
+    </div>
 <br>
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
       <th class="btn-th"></th>
-      <th scope="col">Ime</th>
-      <th scope="col">Prezime</th>
-      <th scope="col">Status</th>
-      <th scope="col">Datum učlanjena</th>
-      <th scope="col">Fakultet</th>
-      <th scope="col">Smer</th>
-      <th scope="col">Godina upisa</th>
-      <th scope="col">Godina studija</th>
-      <th scope="col">Mesto stanovanja</th>
-      <th scope="col">Mesto rođenja</th>
-      <th scope="col">Datum rođenja</th>
-      <th scope="col">Broj fiksnog</th>
-      <th scope="col">Broj mobilnog</th>
+      <th scope="col" sortable="ime" (sort)="onSort($event)">Ime</th>
+      <th scope="col" sortable="prz" (sort)="onSort($event)">Prezime</th>
+      <th scope="col" sortable="stari" (sort)="onSort($event)">Status</th>
+      <th scope="col" sortable="datUcl" (sort)="onSort($event)">Datum učlanjena</th>
+      <th scope="col" sortable="fakultet" (sort)="onSort($event)">Fakultet</th>
+      <th scope="col" sortable="smer" (sort)="onSort($event)">Smer</th>
+      <th scope="col" sortable="godUpis" (sort)="onSort($event)">Godina upisa</th>
+      <th scope="col" sortable="godStud" (sort)="onSort($event)">Godina studija</th>
+      <th scope="col" sortable="mestoStan" (sort)="onSort($event)">Mesto stanovanja</th>
+      <th scope="col" sortable="mestoRodj" (sort)="onSort($event)">Mesto rođenja</th>
+      <th scope="col" sortable="dat" (sort)="onSort($event)">Datum rođenja</th>
+      <th scope="col" sortable="tel" (sort)="onSort($event)">Broj fiksnog</th>
+      <th scope="col" sortable="mob" (sort)="onSort($event)">Broj mobilnog</th>
       <th scope="col">JMBG</th>
       <th scope="col">Broj lične karte</th>
-      <th scope="col">Član</th>
-      <th scope="col">Tip invaliditeta</th>
-      <th scope="col">Dijagnoza</th>
-      <th scope="col">Dodatna podrska</th>
-      <th scope="col">Jezici</th>
-      <th scope="col">Računarske veštine</th>
-      <th scope="col">Druge organizacije</th>
-      <th scope="col">Pisanje projekata</th>
-      <th scope="col">Radioničarske veštine</th>
-      <th scope="col">Stepen aktivnosti</th>
-      <th scope="col">Druge veštine</th>
-      <th scope="col">Način polaganja ispita</th>
-      <th scope="col">Prisustvo skupštini</th>
+      <th scope="col" sortable="tip" (sort)="onSort($event)">Član</th>
+      <th scope="col" sortable="tipInv" (sort)="onSort($event)">Tip invaliditeta</th>
+      <th scope="col" sortable="dijagnoza" (sort)="onSort($event)">Dijagnoza</th>
+      <th scope="col" sortable="dodatnaPodrska" (sort)="onSort($event)">Dodatna podrska</th>
+      <th scope="col" sortable="jezici" (sort)="onSort($event)">Jezici</th>
+      <th scope="col" sortable="racVest" (sort)="onSort($event)">Računarske veštine</th>
+      <th scope="col" sortable="studOrgs" (sort)="onSort($event)">Druge organizacije</th>
+      <th scope="col" sortable="pisanjeProj" (sort)="onSort($event)">Pisanje projekata</th>
+      <th scope="col" sortable="radVes" (sort)="onSort($event)">Radioničarske veštine</th>
+      <th scope="col" sortable="aktivan" (sort)="onSort($event)">Stepen aktivnosti</th>
+      <th scope="col" sortable="drugeVest" (sort)="onSort($event)">Druge veštine</th>
+      <th scope="col" sortable="ispit" (sort)="onSort($event)">Način polaganja ispita</th>
+      <th scope="col" sortable="prisSkup" (sort)="onSort($event)">Prisustvo skupštini</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let stud of this.dataService.archive; index as i">
+    <tr *ngFor="let stud of this.dataService.archive | filterTable: ime: prz: fakultet: smer: godUpis: godStud:
+    godUcl: dijagnoza: dodatnaPodrska: jezici: racVest: studOrgs: mestoRodj: mestoStan: ulica: prisSkup: drugeVes: ispit:
+    radVesDa: radVesNe: pprojDa: pprojNe: aktivanDa: aktivanNe: suspDa: suspNe: clnDa: clnNe:
+    volonter: sInv: tOst: hrB: drugo: stari: nedostupan; index as i">
         <td class="btn-td">
           <button class="btn btn-primary btn-sm" (click)="vrati(stud)">vrati</button>
         </td>
         <td>{{ stud.ime }}</td>
         <td>{{ stud.prz }}</td>
         <td>
-          <span *ngIf="stud.stari">Stari student</span>
-          <span *ngIf="stud.nedostupan">Nedostupan</span>
+          <span *ngIf="stud.nedostupan; else stariStud">Nedostupan</span>
+          <ng-template #stariStud>Stari student</ng-template>
         </td>
         <td>{{ stud.datUcl }}</td>
         <td>{{ stud.fakultet }}</td>

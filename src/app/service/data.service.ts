@@ -16,16 +16,12 @@ export class DataService {
   students: StudentRow[] = [];
   archive: StudentRow[] = [];
   initialized: boolean = false;
-  users = [];
   
   mesta: string[] = [];
   pozBrFiksni: string[] = [];
   jezici: string[] = []; 
   pozBrMob: string[] = ["060", "061", "062", "063", "064", "065", "066", "0677", "069"];
-  clanarine: Clanarina[] = [
-    new Clanarina({god: "2019/2020", iznos: "1214 din"}),
-    new Clanarina({god: "2020/2021", iznos: "2214 din"})
-  ]
+  clanarine: Clanarina[] = [];
   imena: string[] = [];
   prezimena: string[] = [];
   fakulteti: string[] = [];
@@ -39,14 +35,16 @@ export class DataService {
   ulice: string[] = [];
   drugeVestine: string[] = [];
 
-  godClanarine: string = "2020/2021";
+  godClanarine: string;
 
   constructor(private electronService: ElectronService) {
     //add students
     this.electronService.ipcRenderer.on('newStudent', (event, stud: Student) => {
       stud = this.convertDates(stud);
-      console.log(stud);
-      this.students.push(new StudentRow(stud));
+      
+      let row = new StudentRow(stud);
+      this.students.push(row);
+      row.setClanarineZaGod(this.godClanarine);
       this.setFilters();
     });
 
@@ -151,8 +149,9 @@ export class DataService {
     });
     stud.clanarine.forEach( cln => {
         if(cln.dat)
-            cln.dat = new Date(cln.dat);
+          cln.dat = new Date(cln.dat);
     });
+    
     return stud;
   }
 }

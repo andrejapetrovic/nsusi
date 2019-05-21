@@ -9,7 +9,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "ng build --base-href ./ && tsc --p electron && electron ."
+    "electron": "ng build --base-href ./ && tsc --p electron && electron .",
+    "pack": "electron-packager .",
+    "electron-build": "ng build --prod && electron .",
+    "electron2": "electron ."
   },
   "private": true,
   "dependencies": {
@@ -32,7 +35,6 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "mongodb": "^3.2.4",
-    "nedb": "^1.8.0",
     "ngx-electron": "^2.1.1",
     "popper": "^1.0.1",
     "rxjs": "~6.3.3",
@@ -50,8 +52,8 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^8.9.5",
     "codelyzer": "~4.5.0",
-    "electron": "^4.1.3",
-    "electron-builder": "^20.39.0",
+    "electron": "^5.0.1",
+    "electron-packager": "^13.1.1",
     "electron-rebuild": "^1.8.4",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

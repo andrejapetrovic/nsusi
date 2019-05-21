@@ -9,15 +9,18 @@ export class StudentService {
         const crypto = require('crypto');
         const algorithm = 'aes-256-cbc';
         const key = fs.readFileSync(path.join(__dirname, '../../../../../src/assets/config/enc.nsusi'));    
+        /*const key = crypto.randomBytes(32);
+        fs.writeFile("temp.txt", Buffer.from(key), (err) => {
+            if (err) console.log(err);
+            console.log("Successfully Written to File.");
+          });*/
         const iv = crypto.randomBytes(16);
-
         const students = db.collection('students');
 
         ipcMain.on('getStudents', (event, arg) => {
             
             students.find({}).toArray( (err, docs) => {
               if (err) throw err;
-              console.log("students: ");
               docs.forEach(stud => {
                   stud._id = stud._id.toString();
                   stud.brLicne = decrypt(stud.brLicne);
@@ -30,9 +33,8 @@ export class StudentService {
         ipcMain.on('addStudent', (event, arg) => {
             arg.brLicne = encrypt(arg.brLicne);
             arg.jmbg = encrypt(arg.jmbg);
-            students.insert(arg,  (error, response) => {  
+            students.insertOne(arg,  (error, response) => {  
                 if (error) throw error
-                //console.log(response.ops[0]);
                 let stud = response.ops[0];
                 stud._id = stud._id.toString();
                 stud.brLicne = decrypt(stud.brLicne);
@@ -51,6 +53,13 @@ export class StudentService {
             students.updateOne({_id: id}, { $set:arg }, error  => {  
                 if (error) throw error
                 event.sender.send('confirmUpdate', {});
+              });
+        })
+
+        ipcMain.on('addFeesToAll', (event, arg) => {
+            students.updateMany({}, { $push: { clanarine : arg } }, error => {
+                if (error) throw error
+                event.sender.send('feesAdded', "students updated");
               });
         })
      

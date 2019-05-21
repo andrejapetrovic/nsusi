@@ -1,7 +1,12 @@
 
 <div>
+    <button type="button" class="btn btn-link" (click)="filtersCollapsed = !filtersCollapsed"
+    [attr.aria-expanded]="!filtersCollapsed" aria-controls="filters">
+    Filteri
+    </button>
+    <button type="button" (click)="refresh()" class="btn btn-primary btn-sm float-right">Refresh</button>
   <br>
-  <div class="col-sm-12" style="background-color: whitesmoke">
+  <div class="col-sm-12" id="filters" [ngbCollapse]="!filtersCollapsed" style="background-color: whitesmoke">
       <div class="row">
         <div class="col-sm-2">
           <label>Ime</label>
@@ -159,6 +164,7 @@
                     NE
                   </label>&nbsp;&nbsp;
               </div>
+              
         </div>
       </div><br>
             <div class="row">
@@ -167,7 +173,7 @@
                   <form class="form-inline" (ngSubmit)="prikazClnZaGod(clnForm.value.cln)" #clnForm="ngForm">
                       <label for="god" class="mr-sm-2">Prikaži članarine za školsku godinu</label>
                         <input type="text" class="form-control mb-2 mr-sm-2 col-sm-3" id="god" [value]="clanarina" 
-                          [ngModel]="clanarina" name="cln" [ngbTypeahead]="searchService.searchSkGod">
+                          [ngModel]="clanarina" name="cln" [ngbTypeahead]="searchService.searchCln">
                       <button type="submit" class="btn btn-outline-dark mb-2">Potvrdi</button>
                       &nbsp;&nbsp;&nbsp;
                       <label for="pc">Plaćene članarine:</label>&nbsp;&nbsp;
@@ -181,6 +187,7 @@
                       </label>
                     </form>
                   </div>
+                  <button type="button" (click)="reset()" class="float-right">Reset</button>
                 </div>
               </div>
       
@@ -192,34 +199,34 @@
     <th class="btn-th"></th>
     <th scope="col" sortable="ime" (sort)="onSort($event)">Ime</th>
     <th scope="col" sortable="prz" (sort)="onSort($event)">Prezime</th>
-    <th scope="col">Članarina {{clanarina}}</th>
-    <th scope="col">Datum učlanjena</th>
-    <th scope="col">Godina učlanjena</th>
+    <th scope="col" sortable="clanarina" (sort)="onSort($event)">Članarina {{clanarina}}</th>
+    <th scope="col" sortable="datUcl" (sort)="onSort($event)">Datum učlanjena</th>
+    <th scope="col" sortable="godUcl" (sort)="onSort($event)">Godina učlanjena</th>
     <th scope="col" sortable="fakultet" (sort)="onSort($event)">Fakultet</th>
     <th scope="col" sortable="smer" (sort)="onSort($event)">Smer</th>
     <th scope="col" sortable="godUpis" (sort)="onSort($event)">Godina upisa</th>
     <th scope="col" sortable="godStud" (sort)="onSort($event)">Godina studija</th>
-    <th scope="col">Mesto stanovanja</th>
-    <th scope="col">Ulica</th>
-    <th scope="col">Mesto rođenja</th>
+    <th scope="col" sortable="mestoStan" (sort)="onSort($event)">Mesto stanovanja</th>
+    <th scope="col" sortable="ulica" (sort)="onSort($event)">Ulica</th>
+    <th scope="col" sortable="mestoRodj" (sort)="onSort($event)">Mesto rođenja</th>
     <th scope="col">Datum rođenja</th>
-    <th scope="col">Broj fiksnog</th>
-    <th scope="col">Broj mobilnog</th>
+    <th scope="col" sortable="tel" (sort)="onSort($event)">Broj fiksnog</th>
+    <th scope="col" sortable="mob" (sort)="onSort($event)">Broj mobilnog</th>
     <th scope="col">JMBG</th>
     <th scope="col">Broj lične karte</th>
-    <th scope="col">Član</th>
-    <th scope="col">Tip invaliditeta</th>
-    <th scope="col">Dijagnoza</th>
-    <th scope="col">Dodatna podrska</th>
-    <th scope="col">Jezici</th>
-    <th scope="col">Računarske veštine</th>
-    <th scope="col">Druge organizacije</th>
-    <th scope="col">Pisanje projekata</th>
-    <th scope="col">Radioničarske veštine</th>
-    <th scope="col">Stepen aktivnosti</th>
-    <th scope="col">Druge veštine</th>
-    <th scope="col">Način polaganja ispita</th>
-    <th scope="col">Prisustvo skupštini</th>
+    <th scope="col" sortable="tip" (sort)="onSort($event)">Član</th>
+    <th scope="col" sortable="tipInv" (sort)="onSort($event)">Tip invaliditeta</th>
+    <th scope="col" sortable="dijagnoza" (sort)="onSort($event)">Dijagnoza</th>
+    <th scope="col" sortable="dodatnaPodrska" (sort)="onSort($event)">Dodatna podrska</th>
+    <th scope="col" sortable="jezici" (sort)="onSort($event)">Jezici</th>
+    <th scope="col" sortable="racVest" (sort)="onSort($event)">Računarske veštine</th>
+    <th scope="col" sortable="studOrgs" (sort)="onSort($event)">Druge organizacije</th>
+    <th scope="col" sortable="pisanjeProj" (sort)="onSort($event)">Pisanje projekata</th>
+    <th scope="col" sortable="radVes" (sort)="onSort($event)">Radioničarske veštine</th>
+    <th scope="col" sortable="aktivan" (sort)="onSort($event)">Stepen aktivnosti</th>
+    <th scope="col" sortable="drugeVes" (sort)="onSort($event)">Druge veštine</th>
+    <th scope="col" sortable="ispit" (sort)="onSort($event)">Način polaganja ispita</th>
+    <th scope="col" sortable="prisSkup" (sort)="onSort($event)">Prisustvo skupštini</th>
   </tr>
   </thead>
   <tbody>
@@ -252,6 +259,7 @@
       <td (dblclick)="stud.editable = true">{{ stud.ime }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.prz }}</td>
       <td>
+        <div *ngIf="stud.clnPostoji">
         <div *ngIf="stud.clanarina; then placena else neplacena"></div>
         <ng-template #placena><span style="color: green; font-weight: 500">PLAĆENA</span></ng-template>
         <ng-template #neplacena>
@@ -265,6 +273,8 @@
           ngbPopover="Detaljno" triggers="mouseenter:mouseleave">
           <fa name="external-link-square" size="lg"></fa>
       </span>
+      </div>
+      <div *ngIf="!stud.clnPostoji">Ne postoji</div>
       </td>
       <td (dblclick)="stud.editable = true">{{ stud.datUcl }}</td>
       <td (dblclick)="stud.editable = true">{{ stud.godUcl }}</td>
@@ -314,18 +324,22 @@
       <td><input type="text" class="form-control" [(ngModel)]="stud.ime" (keyup.enter)="editStudentRow(i)"/></td>
       <td><input type="text" class="form-control " [(ngModel)]="stud.prz" (keyup.enter)="editStudentRow(i)"/></td>
       <td>
+        <div *ngIf="stud.clnPostoji">
           <div *ngIf="stud.clanarina; then placena else neplacena"></div>
-          <ng-template #placena>Plaćena</ng-template>
-          <ng-template #neplacena>Neplaćena
+          <ng-template #placena><span style="color: green; font-weight: 500">PLAĆENA</span></ng-template>
+          <ng-template #neplacena>
+              <span style="color: red; font-weight: 500">NEPLAĆENA</span>&nbsp;
               <span *ngIf="!stud.clanarina" (click)="openClnModal(contentCln, stud)" class="rucica"
-              ngbPopover="Potvrdi plaćanje" triggers="mouseenter:mouseleave" style="color: #3478F7">
+              ngbPopover="Potvrdi plaćanje" triggers="mouseenter:mouseleave" style="color: black">
               <fa name="plus"></fa>
-          </span>
+            </span>
           </ng-template>&nbsp;
-            <span *ngIf="!stud.clanarina" (click)="openFees(stud)" class="rucica float-right" style="color: #3478F7"
+            <span (click)="openFees(stud)" class="rucica float-right" style="color:black"
             ngbPopover="Detaljno" triggers="mouseenter:mouseleave">
             <fa name="external-link-square" size="lg"></fa>
         </span>
+        </div>
+        <div *ngIf="!stud.clnPostoji">Ne postoji</div>
         </td>
         <td><input type="text" class="form-control " [(ngModel)]="stud.datUcl" (keyup.enter)="editStudentRow(i)"/></td>
         <td><input type="text" class="form-control " [(ngModel)]="stud.godUcl" (keyup.enter)="editStudentRow(i)"/></td>
@@ -421,6 +435,7 @@
             <input type="text" id="god" class="form-control" ngModel name="godSusp">&nbsp;
             <input type="submit" class="btn btn-outline-dark" value="Potvrdi suspenziju" />
           </div>
+          <br><ngb-alert *ngIf="err" (close)="close()">{{ err }}</ngb-alert>
         </div>
       </form>
       </div>
@@ -441,15 +456,16 @@
               <input type="text" id="dat" class="form-control" ngModel name="datPlacanja">&nbsp;
               <input type="submit" class="btn btn-outline-dark" value="Potvrdi uplatu" />
             </div>
+            <br><ngb-alert *ngIf="err" (close)="close()">{{ err }}</ngb-alert>
           </div>
         </form>
         </div>
     </ng-template>
 
-    <ng-template #contentArh arch-modal>
+    <ng-template #contentArh let-archmodal>
         <div class="modal-header">
           <h4 class="modal-title" id="modal-basic-title">Arhiviraj studenta kao</h4>
-          <span class="close rucica" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span class="close rucica" aria-label="Close" (click)="archmodal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
           </span>
         </div>

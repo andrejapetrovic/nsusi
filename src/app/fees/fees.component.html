@@ -42,6 +42,7 @@
             <input type="text" id="dat" class="form-control" ngModel name="dat">&nbsp;
             <input type="submit" class="btn btn-outline-dark" value="Potvrdi plaćanje" />
           </div>
+          <br><ngb-alert *ngIf="err" (close)="close()">{{ err }}</ngb-alert>
         </div>
       </form>
       </div>

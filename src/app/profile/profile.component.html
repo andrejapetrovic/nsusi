@@ -1,5 +1,5 @@
 <div class="container">
-<h2>{{user.username}},&nbsp;<span *ngIf="user.admin"> administrator</span></h2>
+<h2>{{user.username}}</h2>
     <p>
         <button type="button" class="btn btn-link" (click)="isCollapsed = !isCollapsed"
                 [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
@@ -24,24 +24,10 @@
                       </div> <!-- form-group// -->  
                       <div class="form-group">
                           <button type="submit" class="btn btn-primary btn-block" [disabled]="disabledInput"> Potvrdi </button>
-                      </div> <!-- form-group// --> <span style="color:red">&nbsp;{{errMsg}}</span>                                                  
+                      </div> <!-- form-group// --> <span style="color:red">&nbsp;{{errMsg}}</span>  
+                      <span style="color:green">&nbsp;{{successMsg}}</span>                                                      
                   </form>
                   </article>
               </div> <!-- card.// -->
-      </div>
-      <div *ngIf="user.admin">
-        <span>Tabela korisnika</span>
-        <table class="table table-striped">
-          <thead>
-            <th>username</th>
-            <th></th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of users">
-              <td>{{user.username}}</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
 </div>

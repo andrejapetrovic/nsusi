@@ -20,6 +20,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AnnualFeesComponent } from './annual-fees/annual-fees.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { ProfileComponent } from './profile/profile.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ProfileComponent } from './profile/profile.component';
     DatePipe,
     AnnualFeesComponent,
     SearchPipe,
-    ProfileComponent
+    ProfileComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

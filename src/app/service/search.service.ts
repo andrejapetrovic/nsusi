@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
 
@@ -10,25 +10,7 @@ export class SearchService {
 
   constructor(public dataService: DataService) { }
 
-  /*private multiSearch(arr: any[]) {
-    let retVal = (text$: Observable<string>) =>
-    text$.pipe(
-      map(term => {
-        let str = term.replace(/\s/g, '');
-        let idx = str.lastIndexOf(',');
-        if (idx != null) 
-          str = str.substr(idx+1);
-        else 
-          str = term;
-        if (str.length > 0) {
-          return arr.filter(arg => arg.toLowerCase().indexOf(str) > -1).slice(0, 10);
-        }
-        return [];
-      })
-      )
-    return retVal;
-  }*/
-
+  private rvArr = ["word", "excel", "uopste", "internet"];
    
   searchPozMob = (text$: Observable<string>) =>
     text$.pipe(
@@ -53,8 +35,30 @@ export class SearchService {
    
     searchJezici = (text$: Observable<string>) =>
     text$.pipe(
-      map(term => term.length < 1 ? [] 
-        : this.dataService.jezici.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+      map(term => {
+        if (term.length < 1) return [];
+        else {
+            let str = term.replace(/\s/g, '');
+            let idx = str.lastIndexOf(',');
+            let prefix = "";
+            if (idx != null) {
+              prefix = str.substr(0, idx+1);
+              str = str.substr(idx+1);
+            }
+            else 
+              str = term;
+            if (str.length > 0) {
+              let filtered = this.dataService.jezici.filter(arg => arg.toLowerCase().indexOf(str) > -1).slice(0, 10);
+              if(prefix) {
+                let rpl = prefix.replace(/\s/g, '');
+                let arr = prefix.split(',');
+                filtered = filtered.filter(x => !arr.includes(x));
+              }
+              return filtered.map( jez => jez = prefix + jez);
+            }
+            return [];
+        } 
+      })
     )
 
   
@@ -88,12 +92,62 @@ export class SearchService {
       map(term => term.length < 1 ? [] 
         : this.dataService.skolskeGodine.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
+
+    searchSkGodMulti = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => {
+        if (term.length < 1) return [];
+        else {
+            let str = term.replace(/\s/g, '');
+            let idx = str.lastIndexOf(',');
+            let prefix = "";
+            if (idx != null) {
+              prefix = str.substr(0, idx+1);
+              str = str.substr(idx+1);
+            }
+            else 
+              str = term;
+            if (str.length > 0) {
+              let filtered = this.dataService.skolskeGodine.filter(arg => arg.toLowerCase().indexOf(str) > -1).slice(0, 10);
+              if(prefix) {
+                let rpl = prefix.replace(/\s/g, '');
+                let arr = prefix.split(',');
+                filtered = filtered.filter(x => !arr.includes(x));
+              }
+              return filtered.map( jez => jez = prefix + jez);
+            }
+            return [];
+        } 
+      })
+    )
   
   searchOrgs = (text$: Observable<string>) =>
-    text$.pipe(
-      map(term => term.length < 1 ? [] 
-        : this.dataService.organizacije.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    )
+  text$.pipe(
+    map(term => {
+      if (term.length < 1) return [];
+      else {
+          let str = term.replace(/\s/g, '');
+          let idx = str.lastIndexOf(',');
+          let prefix = "";
+          if (idx != null) {
+            prefix = str.substr(0, idx+1);
+            str = str.substr(idx+1);
+          }
+          else 
+            str = term;
+          if (str.length > 0) {
+            let filtered = this.dataService.organizacije.filter(arg => arg.toLowerCase().indexOf(str) > -1).slice(0, 10);
+            if(prefix) {
+              let rpl = prefix.replace(/\s/g, '');
+              let arr = prefix.split(',');
+              filtered = filtered.filter(x => !arr.includes(x));
+            }
+            return filtered.map( jez => jez = prefix + jez);
+          }
+          return [];
+      } 
+    })
+  )
 
   searchIspiti = (text$: Observable<string>) =>
     text$.pipe(
@@ -102,16 +156,62 @@ export class SearchService {
     )
   
   searchRv = (text$: Observable<string>) =>
-    text$.pipe(
-      map(term => term.length < 1 ? [] 
-        : this.dataService.racunarskeVestine.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    )
+  text$.pipe(
+    map(term => {
+      if (term.length < 1) return [];
+      else {
+          let str = term.replace(/\s/g, '');
+          let idx = str.lastIndexOf(',');
+          let prefix = "";
+          if (idx != null) {
+            prefix = str.substr(0, idx+1);
+            str = str.substr(idx+1);
+          }
+          else 
+            str = term;
+          if (str.length > 0) {
+           
+            let filtered = this.dataService.racunarskeVestine.filter(x => !this.rvArr.includes(x));
+            filtered = filtered.filter(arg => arg.toLowerCase().indexOf(str) > -1).slice(0, 10);
+            if(prefix) {
+              let rpl = prefix.replace(/\s/g, '');
+              let arr = prefix.split(',');
+              filtered = filtered.filter(x => !arr.includes(x));
+            }
+            return filtered.map( jez => jez = prefix + jez);
+          }
+          return [];
+      } 
+    })
+  )
 
   searchDv = (text$: Observable<string>) =>
-    text$.pipe(
-      map(term => term.length < 1 ? [] 
-        : this.dataService.drugeVestine.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    )
+  text$.pipe(
+    map(term => {
+      if (term.length < 1) return [];
+      else {
+          let str = term.replace(/\s/g, '');
+          let idx = str.lastIndexOf(',');
+          let prefix = "";
+          if (idx != null) {
+            prefix = str.substr(0, idx+1);
+            str = str.substr(idx+1);
+          }
+          else 
+            str = term;
+          if (str.length > 0) {
+            let filtered = this.dataService.drugeVestine.filter(arg => arg.toLowerCase().indexOf(str) > -1).slice(0, 10);
+            if(prefix) {
+              let rpl = prefix.replace(/\s/g, '');
+              let arr = prefix.split(',');
+              filtered = filtered.filter(x => !arr.includes(x));
+            }
+            return filtered.map( jez => jez = prefix + jez);
+          }
+          return [];
+      } 
+    })
+  )
 
   searchDijagnoze = (text$: Observable<string>) =>
     text$.pipe(
@@ -131,5 +231,11 @@ export class SearchService {
         : this.dataService.ulice.filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
   
+    searchCln = (text$: Observable<string>) =>
+    text$.pipe(
+      map(term => {
+        return this.dataService.clanarine.map(c => c.god).filter(arg => arg.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+      })
+    )
   
 }

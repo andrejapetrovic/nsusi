@@ -8,6 +8,7 @@ import { TabsComponent } from '../tabs/tabs.component';
 import { SearchService } from '../service/search.service';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ValidationService } from '../service/validation.service';
 
 @Component({
   selector: 'app-student',
@@ -20,35 +21,40 @@ export class StudentComponent implements OnInit {
   student: Student;
   studentRow: StudentRow;
   help; 
+  err;
+  success;
 
   constructor(private dataService: DataService, private route: ActivatedRoute,  @Host() private parent: TabsComponent,
-    public searchService: SearchService, private modalService: NgbModal) { }
+    public searchService: SearchService, private modalService: NgbModal, private validate: ValidationService) { }
 
   ngOnInit() {
+  
+    this.studentRow = this.dataService.getStudentRow(this.studId);
+    this.student = Object.assign({}, this.studentRow.updateModel());
 
-        this.studentRow = this.dataService.getStudentRow(this.studId);
-        this.student = this.studentRow.getModel();
+    let rvArr = ['word', 'excel', 'internet', 'uopste'];
+    this.help = {
+      pozMob: this.student.mob.split(' ')[0],
+      pozTel: this.student.tel.split(' ')[0],
+      mob: this.student.mob.split(' ').slice(1).join(' '),
+      tel: this.student.tel.split(' ').slice(1).join(' '),
+      word: this.student.racVest.includes('word'),
+      excel: this.student.racVest.includes('excel'),
+      internet: this.student.racVest.includes('internet'),
+      uopste: this.student.racVest.includes('uopste'),
+      dat: this.student.dat.getDate() + ". " + (this.student.dat.getMonth()+1) + ". " + this.student.dat.getFullYear(),
+      datUcl: this.student.datUcl.getDate() + ". " + (this.student.datUcl.getMonth()+1) + ". " + this.student.datUcl.getFullYear(),
+      ostaleRv: this.joinArr( this.student.racVest.filter( rv => !rvArr.includes(rv) ) ),   
+      jezici: this.joinArr(this.student.jezici),
+      drugeVes: this.joinArr(this.student.drugeVes),
+      prisSkup: this.joinArr(this.student.prisSkup)   
+    }
 
-        let rvArr = ['word', 'excel', 'internet', 'uopste'];
-        this.help = {
-          pozMob: this.student.mob.split(' ')[0],
-          pozTel: this.student.tel.split(' ')[0],
-          mob: this.student.mob.split(' ').slice(1).join(' '),
-          tel: this.student.tel.split(' ').slice(1).join(' '),
-          word: this.student.racVest.includes('word'),
-          excel: this.student.racVest.includes('excel'),
-          internet: this.student.racVest.includes('internet'),
-          uopste: this.student.racVest.includes('uopste'),
-          dat: this.student.dat.getDay() + ". " + this.student.dat.getMonth() + ". " + this.student.dat.getFullYear(),
-          datUcl: this.student.datUcl.getDay() + ". " + this.student.datUcl.getMonth() + ". " + this.student.datUcl.getFullYear(),
-          ostaleRv: this.joinArr( this.student.racVest.filter( rv => !rvArr.includes(rv) ) ),   
-          jezici: this.joinArr(this.student.jezici),
-          drugeVes: this.joinArr(this.student.drugeVes),
-          prisSkup: this.joinArr(this.student.prisSkup)   
-        }
   }
 
   onSubmit(form) {
+    this.close();
+    
     this.student.mob = this.help.pozMob + " " + this.help.mob;
     this.student.tel = this.help.pozTel + " " + this.help.tel;
     this.student.dat = this.str2Date(this.help.dat);
@@ -62,14 +68,53 @@ export class StudentComponent implements OnInit {
     this.student.jezici = this.str2Arr(this.help.jezici);
     this.student.drugeVes = this.str2Arr(this.help.drugeVes);
     this.student.prisSkup = this.str2Arr(this.help.prisSkup);
-    console.log(this.student);
+    
     
     let stud = this.dataService.convertDates(this.student);
     let row = new StudentRow(stud);
+
+    let validate = this.validate.validForm(row);
+    if (!validate.valid) {
+      this.err = validate.status;
+      return;
+    }
+    if(!this.help.pozMob) {
+      this.err = "polje pozivni broj ne sme biti prazno";
+      return;
+    }
+
+    let datValidation = this.validate.validateDate(row.dat);
+    let datUclValidation = this.validate.validateDate(row.datUcl);
+    
+    if(!datValidation.valid) {
+      this.err = datValidation.msg;
+      return;
+    }
+   
+    if(!datUclValidation.valid) {
+      this.err = datUclValidation.msg;
+      return;
+    }
+
+    let godUpisValidation = this.validate.validateSkGod(row.godUpis);
+    let godUclValidation = this.validate.validateSkGod(row.godUcl);
+
+    if(!godUclValidation.valid) {
+      this.err = godUclValidation.msg;
+      return;
+    }
+   
+    if(!godUpisValidation.valid) {
+      this.err = godUpisValidation.msg;
+      return;
+    }
+
     let idx = this.dataService.students.indexOf(this.dataService.students.find(s => s._id === stud._id));
     this.dataService.students[idx] = row;
     this.dataService.updateStudent(this.student);
+    this.success = "Član uspešno ažuriran"
   }
+  
 
   change(key, val) {
     this.student[key] = val;
@@ -77,7 +122,7 @@ export class StudentComponent implements OnInit {
 
   private str2Date(dateStr: string): Date {
     let d = dateStr.split('. ');          
-    return new Date(parseInt(d[2]), parseInt(d[1]), parseInt(d[0]));
+    return new Date(parseInt(d[2]), parseInt(d[1])-1, parseInt(d[0]));
   }
  
   private str2Arr(arrStr): any[] {
@@ -139,4 +184,8 @@ vrati(){
   this.studentRow.vratiIzArhive();
   }
 
+  close() {
+    this.err = "";
+    this.success = "";
+  }
 }

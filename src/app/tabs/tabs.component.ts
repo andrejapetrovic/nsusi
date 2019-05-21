@@ -14,6 +14,7 @@ import { RouterLink, Router } from '@angular/router';
 export class TabsComponent implements OnInit {
 
   closableTabs: ITab[] = [];
+  admin: boolean;
 
   @ViewChild('tabs')
   tabset: NgbTabset;
@@ -23,23 +24,22 @@ export class TabsComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.admin = this.dataService.user.admin;
+    if (this.admin) ++this.pos;
   }
 
-  
+  private pos = 4;
   closeTab(tab: ITab, $event) {
     $event.preventDefault();
     let idx = this.closableTabs.indexOf(this.closableTabs.find(t => t.id === tab.id));
-    this.closableTabs.splice(idx, 1);
- 
+    let deletedTab = this.closableTabs.splice(idx, 1);
   }
   
   createUniqueTab(newTab: ITab) {
     let tab = this.closableTabs.find( tab => tab.id === newTab.id);
     if (!tab) {
       tab = newTab;
-      let idx = this.tabset.tabs.last.id.split('-')[2];
-      tab.position = (parseInt(idx)+1).toString();
+      tab.position = ( ++this.pos  ).toString();
       this.closableTabs.push(tab);
     }
     this.tabset.activeId = "ngb-tab-" + tab.position;

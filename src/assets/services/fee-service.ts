@@ -6,13 +6,21 @@ export class FeeService {
         const fees = db.collection('fees');
 
         ipcMain.on('addFee', (event, arg) => {
-            fees.insert(arg,  (error, response) => {  
+            fees.insertOne(arg,  (error, response) => {  
                 if (error) throw error
-                //console.log(response.ops[0]);
                 let fee = response.ops[0];
 
                 event.sender.send('newFee', fee);
               });
         })
+
+        ipcMain.on('getFees', (event, arg) => {
+                
+            fees.find({}).toArray( (err, docs) => {
+              if (err) throw err;
+              event.sender.send('sendFees', docs);
+            });
+        })
     }
+
 }

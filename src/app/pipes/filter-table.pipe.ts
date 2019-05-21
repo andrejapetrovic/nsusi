@@ -12,7 +12,7 @@ export class FilterTablePipe implements PipeTransform {
     studOrgs: string, mestoRodj: string, mestoStan: string, ulica: string, prisSkup: string, drugeVes: string, ispit: string,
     radVesDa: boolean, radVesNe: boolean, aktivanDa: boolean, aktivanNe: boolean, pprojDa: boolean, pprojNe: boolean,
     suspDa: boolean, suspNe: boolean, clnDa: boolean, clnNe: boolean,
-    volonter: boolean, sInv: boolean, tOst: boolean, hrB: boolean, drugo: boolean): StudentRow[] {
+    volonter: boolean, sInv: boolean, tOst: boolean, hrB: boolean, drugo: boolean, stari: boolean, nedostupan: boolean): StudentRow[] {
     if (!students) {
       return [];
     } 
@@ -57,6 +57,9 @@ export class FilterTablePipe implements PipeTransform {
     if (tOst) ret = ret.filter( stud => stud['tipInv'] === 'Telesno oštećenje');
     if (hrB) ret = ret.filter( stud => stud['tipInv'] === 'Hronična bolest');
     if (drugo) ret = ret.filter( stud => stud['tipInv'] === 'Drugo');
+
+    if (stari) ret = ret.filter( stud => stud.stari);
+    if (nedostupan) ret = ret.filter( stud => stud.nedostupan);
 
     return ret;
   }

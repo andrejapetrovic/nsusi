@@ -5,7 +5,9 @@
               <span><b>Tabela članova</b></span>
             </ng-template>
         <ng-template ngbTabContent>
-          <app-student-table archive="false"></app-student-table>
+          <div class="scroll">
+            <app-student-table archive="false"></app-student-table>
+          </div>
         </ng-template>
       </ngb-tab>
     
@@ -14,7 +16,9 @@
               <span><b>Novi član</b></span>
             </ng-template>
         <ng-template ngbTabContent>
+            <div class="scroll">
           <app-form></app-form>
+          </div>
         </ng-template>
       </ngb-tab>
       
@@ -23,7 +27,9 @@
                   <span><b>Godišnje članarine</b></span>
                 </ng-template>
               <ng-template ngbTabContent>
+                  <div class="scroll">
                 <app-annual-fees></app-annual-fees>
+                </div>
               </ng-template>
             </ngb-tab>
     
@@ -32,7 +38,9 @@
             <span><b>Arhiva</b></span>
           </ng-template>
         <ng-template ngbTabContent>
+            <div class="scroll">
           <app-archive></app-archive>
+          </div>
         </ng-template>
       </ngb-tab>
   
@@ -41,9 +49,22 @@
             <span><b>Profil</b></span>
           </ng-template>
         <ng-template ngbTabContent>
+            <div class="scroll">
           <app-profile></app-profile>
+          </div>
         </ng-template>
       </ngb-tab>
+
+      <ngb-tab *ngIf="admin">
+        <ng-template ngbTabTitle>
+          <span><b>Admin</b></span>
+        </ng-template>
+      <ng-template ngbTabContent>
+          <div class="scroll">
+        <app-admin></app-admin>
+        </div>
+      </ng-template>
+    </ngb-tab>
 
       <ngb-tab *ngFor="let tab of closableTabs" [attr.id]="tab.id">
         <ng-template ngbTabTitle>
@@ -51,13 +72,13 @@
           <span class="close-tab" (click)="closeTab(tab, $event)">x</span>
         </ng-template>
         <ng-template ngbTabContent>
-          <div *ngIf="tab.type === 'student'">
+          <div *ngIf="tab.type === 'student'" class="scroll">
             <app-student studId="{{tab.studId}}"></app-student>
           </div>
-          <div *ngIf="tab.type === 'clanarina'">
+          <div *ngIf="tab.type === 'clanarina'" class="scroll">
             <app-fees studId="{{tab.studId}}"></app-fees>
           </div>
-          <div *ngIf="tab.type === 'suspenzija'">
+          <div *ngIf="tab.type === 'suspenzija'" class="scroll">
               <app-suspensions studId="{{tab.studId}}"></app-suspensions>
             </div>
         </ng-template>
