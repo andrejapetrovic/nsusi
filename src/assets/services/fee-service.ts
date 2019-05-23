@@ -3,12 +3,12 @@ import { IpcMain } from 'electron';
 export class FeeService {
 
     constructor(db, ipcMain: IpcMain) {
-        const fees = db.collection('fees');
-
+        //const fees = db.collection('fees');
+        const fees = db;
         ipcMain.on('addFee', (event, arg) => {
-            fees.insertOne(arg,  (error, response) => {  
+            fees.insert(arg,  (error, response) => {  
                 if (error) throw error
-                let fee = response.ops[0];
+                let fee = response;
 
                 event.sender.send('newFee', fee);
               });
@@ -16,7 +16,7 @@ export class FeeService {
 
         ipcMain.on('getFees', (event, arg) => {
                 
-            fees.find({}).toArray( (err, docs) => {
+            fees.find({}, (err, docs) => {
               if (err) throw err;
               event.sender.send('sendFees', docs);
             });

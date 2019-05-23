@@ -2,12 +2,12 @@
   <div class="btn-group">&nbsp;&nbsp;
     <button type="button" class="btn btn-dark" (click)="openFees()" onclick="this.blur();">Članarine</button>
     <button type="button" class="btn btn-dark" (click)="openSuspensions()" onclick="this.blur();">Suspenzije</button>
-    <button *ngIf="!student.stari && !student.nedostupan" type="button" (click)="openArhModal(contentArh)" class="btn btn-dark" onclick="this.blur();">Arhiviraj</button>
-    <button *ngIf="student.stari || student.nedostupan" type="button" (click)="vrati()" class="btn btn-dark" onclick="this.blur();">Vrati iz arhive</button>
+    <button *ngIf="!arhiviran" type="button" (click)="openArhModal(contentArh)" class="btn btn-dark" onclick="this.blur();">Arhiviraj</button>
+    <button *ngIf="arhiviran" type="button" (click)="vrati()" class="btn btn-dark" onclick="this.blur();">Vrati iz arhive</button>
     <span *ngIf="studentRow.susp" style="color: red">
       &nbsp; <b>SUSPENDOVAN</b>
     </span>
-    <span *ngIf="student.stari || student.nedostupan">
+    <span *ngIf="arhiviran">
         &nbsp; <b>ARHIVIRAN</b>
     </span>
   </div>

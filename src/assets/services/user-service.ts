@@ -6,15 +6,16 @@ export class UserService {
 
         const bcrypt = require('bcryptjs');
         
-        const users = db.collection('users');
-        
+        //const users = db.collection('users');
+        const users = db;
+
         ipcMain.on('addUser', (event, arg) => {
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(arg.password, salt, (err, hash) => {
                     arg.password = hash;
-                    users.insertOne(arg,  (error, response) => {  
-                        if (error) event.sender.send('newUser', {added: false});       
-                        event.sender.send('newUser', {added: true, user: response.ops[0]});
+                    users.insert(arg,  (error, response) => {  
+                        if (error) event.sender.send('newUser', {added: false});    
+                        event.sender.send('newUser', {added: true, user: response});
                       });
                 });
             });
@@ -44,8 +45,8 @@ export class UserService {
                             bcrypt.hash(arg.pass.newPassword, salt, (err, hash) => {
                                 if (error) throw error           
                                  
-                                    users.updateOne({username: user.username}, 
-                                        { $set: { password: hash } }, (err, res) => {
+                                    users.update({username: user.username}, 
+                                        { $set: { password: hash } }, {}, (err, res) => {
                                             event.sender.send('passwordUpdate', {updated: true});  
                                         })
                                   
@@ -59,7 +60,7 @@ export class UserService {
         })
 
         ipcMain.on('getUsers', (event, arg) => {
-            users.find({}).toArray( (error, docs) => {
+            users.find({}, (error, docs) => {
                 if (error) throw error     
                 event.sender.send('sendUsers', docs);
               });          
@@ -67,7 +68,7 @@ export class UserService {
 
         ipcMain.on('deleteUser', (event, arg) => {
 
-            users.deleteOne({ username: arg }, function(err, res) {
+            users.remove({ username: arg }, {}, (err, res) => {
               if (err) throw err;
               event.sender.send('deleted', arg);
             });       

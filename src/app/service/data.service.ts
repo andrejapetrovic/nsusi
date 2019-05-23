@@ -56,7 +56,7 @@ export class DataService {
 
   setFilters() {
 
-    let models = this.students.map( student => student.getModel());
+    let models = ( this.students.concat(this.archive) ).map( student => student.getModel());
 
     const distinct = (value, index, self) => {
       return self.indexOf(value) === index;

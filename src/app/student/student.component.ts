@@ -23,15 +23,16 @@ export class StudentComponent implements OnInit {
   help; 
   err;
   success;
+  arhiviran;
 
   constructor(private dataService: DataService, private route: ActivatedRoute,  @Host() private parent: TabsComponent,
     public searchService: SearchService, private modalService: NgbModal, private validate: ValidationService) { }
 
   ngOnInit() {
-  
+    
     this.studentRow = this.dataService.getStudentRow(this.studId);
     this.student = Object.assign({}, this.studentRow.updateModel());
-
+    this.arhiviran = this.student.stari || this.student.nedostupan;
     let rvArr = ['word', 'excel', 'internet', 'uopste'];
     this.help = {
       pozMob: this.student.mob.split(' ')[0],
@@ -174,6 +175,7 @@ arhiviraj(f: NgForm) {
     f.resetForm;
     this.modalService.dismissAll();
     this.dataService.archive.push(row);
+    this.arhiviran = true;
 }
 
 vrati(){
@@ -182,7 +184,8 @@ vrati(){
   this.dataService.students.push(this.studentRow);
 
   this.studentRow.vratiIzArhive();
-  }
+  this.arhiviran = false;
+}
 
   close() {
     this.err = "";

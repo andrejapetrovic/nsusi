@@ -31,8 +31,9 @@ export class InitComponent implements OnInit {
     this.electronService.ipcRenderer.send('connectToDb');
     
     this.electronService.ipcRenderer.on('connectionStatus', (event, arg) => {
-
+      
       if (arg.connected) {
+          //this.electronService.ipcRenderer.send('addUser', {username:"admin", password:"admin", admin: true});
           cStatus.classList.add("d-none");
           lForm.classList.remove("d-none");
           this.zone.run( () => {

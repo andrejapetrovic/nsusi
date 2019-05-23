@@ -46,7 +46,9 @@ function createWindow() {
   })
 
   const fs = require('fs');
-  let raw_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/database-url.txt'));
+
+  //MongoDB
+  /*let raw_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/database-url.txt'));
   let database_url = raw_data.toString('ascii', 0, raw_data.length);    
 
   const MongoClient = require('mongodb').MongoClient;
@@ -73,6 +75,57 @@ function createWindow() {
         new StudentService(db, ipcMain);
         new FeeService(db, ipcMain);
     }); 
+  })*/
+
+  //nedb
+  var Datastore = require('nedb');
+  let db: any = {};
+  db.users = new Datastore(path.join(__dirname, '../../../src/assets/data/users.db'));
+  db.students = new Datastore(path.join(__dirname, '../../../src/assets/data/students.db'));
+  db.fees = new Datastore(path.join(__dirname, '../../../src/assets/data/fees.db'));
+
+  ipcMain.on('connectToDb', (event, arg) => {
+
+    db.users.loadDatabase( err => {  
+      if(err) throw err  
+      db.students.loadDatabase( err => {
+        if(err) throw err
+        db.fees.loadDatabase( err => {
+          if (err) throw err
+          let raw_user_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/user.json'));
+          let user_config = JSON.parse(raw_user_data);
+  
+          let raw_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/god.txt'));
+          let god = raw_data.toString('ascii', 0, raw_data.length); 
+  
+          event.sender.send('connectionStatus', {connected: true, user: user_config, god: god})
+          console.log("Connected to database server");
+          new UserService(db.users, ipcMain);
+          new StudentService(db.students, ipcMain);
+          new FeeService(db.fees, ipcMain);
+        })
+      })
+    });
+
+    /*client.connect( err => {
+        if (err) {
+          event.sender.send('connectionStatus', 
+            {connected: false, msg:"Problemi prilikom konekcije na server baze"});
+          throw err; 
+        }
+        let raw_user_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/user.json'));
+        let user_config = JSON.parse(raw_user_data);
+
+        let raw_data = fs.readFileSync(path.join(__dirname, '../../../src/assets/config/god.txt'));
+        let god = raw_data.toString('ascii', 0, raw_data.length); 
+
+        event.sender.send('connectionStatus', {connected: true, user: user_config, god: god})
+        console.log("Connected to database server");
+        
+        new UserService(db, ipcMain);
+        new StudentService(db, ipcMain);
+        new FeeService(db, ipcMain);
+    }); */
   })
 
   ipcMain.on('saveConfig', (event, arg) => {

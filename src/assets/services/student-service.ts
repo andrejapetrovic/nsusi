@@ -15,11 +15,12 @@ export class StudentService {
             console.log("Successfully Written to File.");
           });*/
         const iv = crypto.randomBytes(16);
-        const students = db.collection('students');
+        //const students = db.collection('students');
+        const students = db;
 
         ipcMain.on('getStudents', (event, arg) => {
             
-            students.find({}).toArray( (err, docs) => {
+            students.find({}, (err, docs) => {
               if (err) throw err;
               docs.forEach(stud => {
                   stud._id = stud._id.toString();
@@ -33,9 +34,9 @@ export class StudentService {
         ipcMain.on('addStudent', (event, arg) => {
             arg.brLicne = encrypt(arg.brLicne);
             arg.jmbg = encrypt(arg.jmbg);
-            students.insertOne(arg,  (error, response) => {  
+            students.insert(arg,  (error, response) => {  
                 if (error) throw error
-                let stud = response.ops[0];
+                let stud = response;
                 stud._id = stud._id.toString();
                 stud.brLicne = decrypt(stud.brLicne);
                 stud.jmbg = decrypt(stud.jmbg);
@@ -43,21 +44,21 @@ export class StudentService {
               });
         })
 
-        var ObjectID = require('mongodb').ObjectID;
+        //var ObjectID = require('mongodb').ObjectID;
 
         ipcMain.on('updateStudent', (event, arg) => {
             arg.brLicne = encrypt(arg.brLicne);
             arg.jmbg = encrypt(arg.jmbg);
-            let id = ObjectID(arg._id);
+            let id = arg._id;
             delete arg._id;
-            students.updateOne({_id: id}, { $set:arg }, error  => {  
+            students.update({_id: id}, { $set:arg }, {}, (error, res)  => {  
                 if (error) throw error
-                event.sender.send('confirmUpdate', {});
+                event.sender.send('confirmUpdate', res);
               });
         })
 
         ipcMain.on('addFeesToAll', (event, arg) => {
-            students.updateMany({}, { $push: { clanarine : arg } }, error => {
+            students.update({}, { $push: { clanarine : arg } }, {}, error => {
                 if (error) throw error
                 event.sender.send('feesAdded', "students updated");
               });
