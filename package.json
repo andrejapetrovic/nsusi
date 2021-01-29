@@ -33,7 +33,7 @@
     "crypto": "^1.0.1",
     "electron-compile": "^6.4.4",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.2.4",
+    "jquery": "^3.5.0",
     "mongodb": "^3.2.4",
     "nedb": "^1.8.0",
     "ngx-electron": "^2.1.1",
